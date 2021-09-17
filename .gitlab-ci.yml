@@ -27,10 +27,7 @@ depoly:
     - echo "Start docker container"
     - docker run --restart=unless-stopped --name=$PROJECT_NAME -d -p 8112:8000 "$PROJECT_NAME:ci_job_$CI_PIPELINE_ID"
     - docker ps
-    - mkdir -p target
     - docker cp $PROJECT_NAME:/app/target/ target/
   artifacts:
     paths:
-      - target/*.jar
-
-
+      - target/
