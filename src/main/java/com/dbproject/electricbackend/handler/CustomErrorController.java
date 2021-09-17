@@ -1,6 +1,6 @@
-package com.dbproject.electricbackend.controller;
+package com.dbproject.electricbackend.handler;
 
-import com.dbproject.electricbackend.entity.ErrorMessage;
+import com.dbproject.electricbackend.http.response.ErrorMessage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.boot.web.servlet.error.ErrorController;

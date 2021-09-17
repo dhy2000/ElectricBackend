@@ -1,4 +1,4 @@
-package com.dbproject.electricbackend.entity;
+package com.dbproject.electricbackend.http.response;
 
 import lombok.Data;
 import lombok.Getter;
