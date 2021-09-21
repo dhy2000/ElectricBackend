@@ -15,17 +15,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Api(tags = "一组简单的示例 API")
-@RequestMapping("/info")
+@RequestMapping("/sample")
 @RestController
-public class ProjectInfoController {
+public class SampleController {
 
     @ApiOperation("获取本工程的基本信息")
     @GetMapping(value = "project", produces = {MediaType.APPLICATION_JSON_VALUE})
-    @ApiResponse(code = 200, message = "JSON 格式的工程信息")
     public ProjectInfo getProjectInfo() {
         return new ProjectInfo();
     }
-
 
     @Data
     private static class SumOfTwoSrc {
@@ -45,7 +43,6 @@ public class ProjectInfoController {
 
     @ApiOperation("一个测试的 GET 接口")
     @GetMapping(value = "calc", produces = {MediaType.APPLICATION_JSON_VALUE})
-    @ApiResponse(code = 200, message = "返回两个操作数以及它们的和")
     public SumOfTwoSrc calc(
         @ApiParam("操作数1") @RequestParam("src1") String src1,
         @ApiParam("操作数2") @RequestParam("src2") String src2
@@ -56,7 +53,7 @@ public class ProjectInfoController {
             int sum = value1 + value2;
             return new SumOfTwoSrc(value1, value2, sum);
         } catch (NumberFormatException e) {
-            throw new CustomException(1001, "Wrong number format");
+            throw CustomException.customized("Wrong number format!");
         }
     }
 }
