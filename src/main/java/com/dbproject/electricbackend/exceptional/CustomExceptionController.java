@@ -1,7 +1,6 @@
-package com.dbproject.electricbackend.handler;
+package com.dbproject.electricbackend.exceptional;
 
-import com.dbproject.electricbackend.http.exception.CustomException;
-import com.dbproject.electricbackend.http.response.StatusMessage;
+import com.dbproject.electricbackend.model.response.StatusMessage;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;

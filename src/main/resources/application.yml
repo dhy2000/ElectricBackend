@@ -1,2 +1,8 @@
 server:
   port: 8000
+spring:
+  datasource:
+    url: jdbc:mysql://49.235.193.150:3306/db_course_2021
+    username: db_course
+    password: D8_C0ur5e
+    driver-class-name: com.mysql.cj.jdbc.Driver

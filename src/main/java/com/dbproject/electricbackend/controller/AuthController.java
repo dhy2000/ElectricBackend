@@ -1,10 +1,10 @@
 package com.dbproject.electricbackend.controller;
 
-import com.dbproject.electricbackend.http.exception.CustomException;
-import com.dbproject.electricbackend.http.exception.ExceptionDefine;
-import com.dbproject.electricbackend.http.postbody.UserLogin;
-import com.dbproject.electricbackend.http.response.LoginSuccess;
-import com.dbproject.electricbackend.http.response.StatusMessage;
+import com.dbproject.electricbackend.exceptional.CustomException;
+import com.dbproject.electricbackend.exceptional.ExceptionDefine;
+import com.dbproject.electricbackend.model.request.UserLogin;
+import com.dbproject.electricbackend.model.response.LoginSuccess;
+import com.dbproject.electricbackend.model.response.StatusMessage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,7 +23,7 @@ public class AuthController {
         // 先来个简单版
         if ("admin".equals(login.getUsername())
             && "e10adc3949ba59abbe56e057f20f883e".equals(login.getPassword())) {
-            return new LoginSuccess("xxxxxxxxxxxx");
+            return new LoginSuccess("^^^^^^NOT IMPLEMENTED^^^^^^^^^");
         } else {
             throw CustomException.fromDefinedTable(ExceptionDefine.WRONG_USERNAME_PASSWORD);
         }

@@ -1,8 +1,10 @@
-package com.dbproject.electricbackend.http.response;
+package com.dbproject.electricbackend.model.response;
 
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.Getter;
 
+@ApiModel("工程信息返回")
 @Data
 public class ProjectInfo {
     @Getter

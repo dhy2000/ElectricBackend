@@ -1,8 +1,10 @@
-package com.dbproject.electricbackend.http.response;
+package com.dbproject.electricbackend.model.response;
 
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.Getter;
 
+@ApiModel("操作结果返回")
 @Data
 public class StatusMessage {
     @Getter
