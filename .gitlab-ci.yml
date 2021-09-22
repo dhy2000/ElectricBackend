@@ -9,10 +9,6 @@ build:
   tags:
     - myserver
   script:
-    - echo "Stop running container"
-    - docker stop $PROJECT_NAME && docker rm $PROJECT_NAME || true  # $PROJECT_NAME is ci variable
-    - echo "Clear old images"
-    - docker image rm $(docker image ls | grep $PROJECT_NAME | awk '{print $3}') || true
     - echo "Build docker image"
     - docker build -t "$PROJECT_NAME:ci_job_$CI_PIPELINE_ID" .
     - docker image ls
@@ -24,6 +20,8 @@ depoly:
   tags:
     - myserver
   script:
+    - echo "Stop running container"
+    - docker stop $PROJECT_NAME && docker rm $PROJECT_NAME || true  # $PROJECT_NAME is ci variable
     - echo "Start docker container"
     - docker run --restart=unless-stopped --name=$PROJECT_NAME -d -p 8112:8000 "$PROJECT_NAME:ci_job_$CI_PIPELINE_ID"
     - docker ps
