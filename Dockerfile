@@ -3,6 +3,12 @@ FROM maven:3.8.2-openjdk-8-slim
 # Set source directory
 WORKDIR /app
 
+# Copy dependency first
+COPY pom.xml .
+
+# Download dependencies
+RUN mvn dependency:copy-dependencies
+
 # Copy project source
 COPY . .
 
