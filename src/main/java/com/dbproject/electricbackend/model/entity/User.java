@@ -1,6 +1,7 @@
 package com.dbproject.electricbackend.model.entity;
 
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NonNull;
@@ -10,13 +11,16 @@ import lombok.NonNull;
 public class User {
     @Getter
     @NonNull
+    @ApiModelProperty("用户编号(唯一且自动递增)")
     private final Integer id;
 
     @Getter
     @NonNull
+    @ApiModelProperty("用户名(唯一)")
     private final String username;
 
     @Getter
     @NonNull
+    @ApiModelProperty("用户昵称")
     private String nickname;
 }
