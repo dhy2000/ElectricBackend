@@ -7,11 +7,9 @@ import com.dbproject.electricbackend.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLException;
 import java.util.List;
 
 @Api(tags = "用户操作接口")
@@ -28,14 +26,14 @@ public class UserController {
 
     @ApiOperation("用户注册")
     @PostMapping("register")
-    public StatusMessage userRegister(UserRegister register) {
+    public StatusMessage userRegister(@RequestBody UserRegister register) throws SQLException, ClassNotFoundException {
         userService.addUser(register);
-        return StatusMessage.getSuccessfulStatus();
+        return StatusMessage.successfulStatus();
     }
 
     @ApiOperation("获取当前存在的全部用户")
     @GetMapping("userlist")
-    public List<User> userList() {
+    public List<User> userList() throws SQLException, ClassNotFoundException {
         return userService.getAllUsers();
     }
 }

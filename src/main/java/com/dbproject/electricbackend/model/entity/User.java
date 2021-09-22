@@ -23,4 +23,10 @@ public class User {
     @NonNull
     @ApiModelProperty("用户昵称")
     private String nickname;
+
+    public User(Integer id, String username, String nickname) {
+        this.id = id;
+        this.username = username;
+        this.nickname = nickname;
+    }
 }

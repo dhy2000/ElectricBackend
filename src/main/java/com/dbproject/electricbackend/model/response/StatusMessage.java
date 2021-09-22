@@ -2,7 +2,6 @@ package com.dbproject.electricbackend.model.response;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiParam;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NonNull;
@@ -11,7 +10,6 @@ import lombok.NonNull;
 @Data
 public class StatusMessage {
     @Getter
-    @NonNull
     @ApiModelProperty("状态码, 0 为操作成功, 1-999 对应 HTTP 错误状态码, 1000 以上为自定义错误码")
     private final int code;
 
@@ -25,6 +23,9 @@ public class StatusMessage {
         this.message = message;
     }
 
-    @Getter
-    private static final StatusMessage successfulStatus = new StatusMessage(0, "");
+    private static final StatusMessage SUCCESSFUL_STATUS = new StatusMessage(0, "");
+
+    public static StatusMessage successfulStatus() {
+        return SUCCESSFUL_STATUS;
+    }
 }

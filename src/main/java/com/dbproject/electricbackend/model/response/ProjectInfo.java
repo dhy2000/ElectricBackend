@@ -17,6 +17,5 @@ public class ProjectInfo {
     private final String course = "Principles of Database System";
 
     @Getter
-    @NonNull
     private final int year = 2021;
 }

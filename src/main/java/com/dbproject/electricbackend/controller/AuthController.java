@@ -32,6 +32,6 @@ public class AuthController {
     @ApiOperation("用户注销")
     @PostMapping(value = "logout")
     public StatusMessage logout() {
-        return StatusMessage.getSuccessfulStatus();
+        return StatusMessage.successfulStatus();
     }
 }
