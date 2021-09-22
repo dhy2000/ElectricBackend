@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 
-@Api(tags = "自定义的全局错误响应接口")
+@Api(tags = "全局错误响应")
 @RequestMapping("/")
 @RestController
-public class CustomErrorController implements ErrorController {
+public class GlobalErrorController implements ErrorController {
 
     private static final String PATH = "/error";
 
