@@ -4,15 +4,18 @@ import lombok.Data;
 import lombok.Getter;
 
 @Data
-public class ErrorMessage {
+public class StatusMessage {
     @Getter
     private final int code;
 
     @Getter
     private final String message;
 
-    public ErrorMessage(int code, String message) {
+    public StatusMessage(int code, String message) {
         this.code = code;
         this.message = message;
     }
+
+    @Getter
+    private static final StatusMessage successfulStatus = new StatusMessage(0, "");
 }

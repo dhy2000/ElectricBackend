@@ -1,6 +1,6 @@
 package com.dbproject.electricbackend.handler;
 
-import com.dbproject.electricbackend.http.response.ErrorMessage;
+import com.dbproject.electricbackend.http.response.StatusMessage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.boot.web.servlet.error.ErrorController;
@@ -21,8 +21,8 @@ public class CustomErrorController implements ErrorController {
     @ApiOperation("HTTP 请求发生错误时返回错误信息")
     @RequestMapping(value = PATH, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
-    public ErrorMessage errorHandler(HttpServletResponse response) {
+    public StatusMessage errorHandler(HttpServletResponse response) {
         int status = response.getStatus();
-        return new ErrorMessage(status, "HTTP Error with code " + status);
+        return new StatusMessage(status, "HTTP Error with code " + status);
     }
 }

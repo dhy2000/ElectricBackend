@@ -10,4 +10,7 @@ public class UserRegister {
 
     @Getter
     private final String password;
+
+    @Getter
+    private final String nickname;
 }

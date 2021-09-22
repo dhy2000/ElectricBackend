@@ -4,6 +4,7 @@ import com.dbproject.electricbackend.http.exception.CustomException;
 import com.dbproject.electricbackend.http.exception.ExceptionDefine;
 import com.dbproject.electricbackend.http.postbody.UserLogin;
 import com.dbproject.electricbackend.http.response.LoginSuccess;
+import com.dbproject.electricbackend.http.response.StatusMessage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Api(tags = "用户身份验证相关 API")
+@Api(tags = "身份验证")
 @RequestMapping("/auth")
 @RestController
 public class AuthController {
@@ -30,7 +31,7 @@ public class AuthController {
 
     @ApiOperation("用户注销")
     @PostMapping(value = "logout")
-    public int logout() {
-        return 0;
+    public StatusMessage logout() {
+        return StatusMessage.getSuccessfulStatus();
     }
 }
