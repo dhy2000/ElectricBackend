@@ -1,4 +1,4 @@
-package com.dbproject.electricbackend.exceptional;
+package com.dbproject.electricbackend.exception;
 
 import com.dbproject.electricbackend.model.response.StatusMessage;
 import org.springframework.web.bind.annotation.ExceptionHandler;

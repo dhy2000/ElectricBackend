@@ -1,4 +1,4 @@
-package com.dbproject.electricbackend.exceptional;
+package com.dbproject.electricbackend.exception;
 
 import lombok.Getter;
 

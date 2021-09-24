@@ -1,7 +1,7 @@
 package com.dbproject.electricbackend.controller;
 
-import com.dbproject.electricbackend.exceptional.CustomException;
-import com.dbproject.electricbackend.exceptional.ExceptionDefine;
+import com.dbproject.electricbackend.exception.CustomException;
+import com.dbproject.electricbackend.exception.ExceptionDefine;
 import com.dbproject.electricbackend.model.request.UserLogin;
 import com.dbproject.electricbackend.model.response.LoginSuccess;
 import com.dbproject.electricbackend.model.response.StatusMessage;
