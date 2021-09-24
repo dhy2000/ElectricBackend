@@ -13,7 +13,7 @@ build:
     - docker build -t "$PROJECT_NAME:ci_job_$CI_PIPELINE_ID" .
     - docker image ls
 
-depoly:
+deploy:
   stage: deploy
   only:
     - master
