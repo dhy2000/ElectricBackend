@@ -28,7 +28,8 @@ public class UserMapperJdbc implements UserMapper {
     @Value("${spring.datasource.password}")
     private String dbPassword;
 
-    public List<User> getAllUsers() throws SQLException, ClassNotFoundException {
+    @Override
+    public List<User> getAllUsers() throws ClassNotFoundException, SQLException {
         // select id, username, nickname from user
         Connection conn = null;
         PreparedStatement query = null;
@@ -53,6 +54,7 @@ public class UserMapperJdbc implements UserMapper {
         }
     }
 
+    @Override
     public void addUser(UserRegister register) throws ClassNotFoundException, SQLException {
         // insert into user(username, password, nickname) values(#{username}, #{password}, #{nickname})
         Connection conn = null;
@@ -72,7 +74,31 @@ public class UserMapperJdbc implements UserMapper {
         }
     }
 
-    public void close(Connection conn, PreparedStatement pst, ResultSet result) throws SQLException {
+    @Override
+    public User getUserById(int userId) throws ClassNotFoundException, SQLException {
+        Connection conn = null;
+        PreparedStatement query = null;
+        ResultSet result = null;
+        try {
+            Class.forName(dbDriverName);
+            conn = DriverManager.getConnection(dbAddress, dbUserName, dbPassword);
+            String sql = "SELECT id, username, nickname FROM user WHERE id = ?";
+            query = conn.prepareStatement(sql);
+            query.setInt(1, userId);
+            result = query.executeQuery();
+            if (result.next()) {
+                Integer id = result.getInt("id");
+                String username = result.getString("username");
+                String nickname = result.getString("nickname");
+                return new User(id, username, nickname);
+            }
+            return null;
+        } finally {
+            close(conn, query, result);
+        }
+    }
+
+    private void close(Connection conn, PreparedStatement pst, ResultSet result) throws SQLException {
         if (Objects.nonNull(result)) {
             result.close();
         }
