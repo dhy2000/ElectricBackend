@@ -23,11 +23,30 @@ public class CustomException extends Exception {
         this.message = message;
     }
 
-    public static CustomException fromDefinedTable(ExceptionDefine define) {
+    public static CustomException defined(Define define) {
         return new CustomException(define.getCode(), define.getMessage());
     }
 
     public static CustomException customized(String message) {
         return new CustomException(CUSTOMIZE_EXCEPTION_CODE, message);
+    }
+
+    public enum Define {
+        WRONG_USERNAME_PASSWORD(1001, "用户名或密码错误"),
+        NEED_LOGIN_FIRST(1002, "请先登录"),
+        INVALID_SESSION(1003, "会话无效, 请重新登录"),
+        NON_EXIST_USER(1004, "该用户不存在"),
+        INVALID_TOKEN(1005, "Token 无效")
+        ;
+
+        @Getter
+        private final int code;
+        @Getter
+        private final String message;
+
+        Define(int code, String message) {
+            this.code = code;
+            this.message = message;
+        }
     }
 }

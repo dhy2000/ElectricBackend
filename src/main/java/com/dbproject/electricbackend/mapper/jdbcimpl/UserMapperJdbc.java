@@ -11,6 +11,7 @@ import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Log4j2
 @Component
@@ -75,7 +76,7 @@ public class UserMapperJdbc implements UserMapper {
     }
 
     @Override
-    public User getUserById(int userId) throws ClassNotFoundException, SQLException {
+    public Optional<User> getUserById(int userId) throws ClassNotFoundException, SQLException {
         Connection conn = null;
         PreparedStatement query = null;
         ResultSet result = null;
@@ -86,16 +87,39 @@ public class UserMapperJdbc implements UserMapper {
             query = conn.prepareStatement(sql);
             query.setInt(1, userId);
             result = query.executeQuery();
-            if (result.next()) {
-                Integer id = result.getInt("id");
-                String username = result.getString("username");
-                String nickname = result.getString("nickname");
-                return new User(id, username, nickname);
-            }
-            return null;
+            return getSingleUserFromResult(result);
         } finally {
             close(conn, query, result);
         }
+    }
+
+    @Override
+    public Optional<User> getUserWithNameAndPassword(String username, String password) throws ClassNotFoundException, SQLException {
+        Connection conn = null;
+        PreparedStatement query = null;
+        ResultSet result = null;
+        try {
+            Class.forName(dbDriverName);
+            conn = DriverManager.getConnection(dbAddress, dbUserName, dbPassword);
+            String sql = "SELECT id, username, nickname FROM user WHERE username = ? AND password = ?";
+            query = conn.prepareStatement(sql);
+            query.setString(1, username);
+            query.setString(2, password);
+            result = query.executeQuery();
+            return getSingleUserFromResult(result);
+        } finally {
+            close(conn, query, result);
+        }
+    }
+
+    private Optional<User> getSingleUserFromResult(ResultSet result) throws SQLException {
+        if (result.next()) {
+            Integer id = result.getInt("id");
+            String username = result.getString("username");
+            String nickname = result.getString("nickname");
+            return Optional.of(new User(id, username, nickname));
+        }
+        return Optional.empty();
     }
 
     private void close(Connection conn, PreparedStatement pst, ResultSet result) throws SQLException {

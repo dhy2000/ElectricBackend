@@ -5,6 +5,7 @@ import com.dbproject.electricbackend.model.request.UserRegister;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 //@Mapper
 public interface UserMapper {
@@ -20,5 +21,7 @@ public interface UserMapper {
 //    @Insert("insert into user(username, password, nickname) values(#{username}, #{password}, #{nickname})")
     void addUser(UserRegister register) throws ClassNotFoundException, SQLException;
 
-    User getUserById(int id) throws ClassNotFoundException, SQLException;
+    Optional<User> getUserById(int id) throws ClassNotFoundException, SQLException;
+
+    Optional<User> getUserWithNameAndPassword(String username, String password) throws ClassNotFoundException, SQLException;
 }

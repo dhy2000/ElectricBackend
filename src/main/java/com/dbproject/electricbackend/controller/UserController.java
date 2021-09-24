@@ -1,14 +1,17 @@
 package com.dbproject.electricbackend.controller;
 
+import com.dbproject.electricbackend.auth.AuthRequired;
+import com.dbproject.electricbackend.auth.TokenUtil;
+import com.dbproject.electricbackend.exception.CustomException;
 import com.dbproject.electricbackend.model.entity.User;
 import com.dbproject.electricbackend.model.request.UserRegister;
 import com.dbproject.electricbackend.model.response.StatusMessage;
 import com.dbproject.electricbackend.service.UserService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -35,5 +38,14 @@ public class UserController {
     @GetMapping("userlist")
     public List<User> userList() throws SQLException, ClassNotFoundException {
         return userService.getAllUsers();
+    }
+
+    @ApiOperation("查看当前登录用户信息")
+    @GetMapping("whoami")
+    @AuthRequired
+    public User whoAmI(@RequestHeader("Token") String token)
+            throws SQLException, CustomException, ClassNotFoundException {
+        int userId = TokenUtil.verifyTokenAndGetUserId(token);
+        return userService.getUserById(userId);
     }
 }
