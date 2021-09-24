@@ -1,6 +1,6 @@
 package com.dbproject.electricbackend.service.impl;
 
-import com.dbproject.electricbackend.mapper.UserMapperJdbc;
+import com.dbproject.electricbackend.mapper.UserMapper;
 import com.dbproject.electricbackend.model.entity.User;
 import com.dbproject.electricbackend.model.request.UserRegister;
 import com.dbproject.electricbackend.service.UserService;
@@ -13,10 +13,10 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final UserMapperJdbc userMapper;
+    private final UserMapper userMapper;
 
     @Autowired
-    public UserServiceImpl(UserMapperJdbc userMapper) {
+    public UserServiceImpl(UserMapper userMapper) {
         this.userMapper = userMapper;
     }
 
