@@ -4,7 +4,6 @@ import com.dbproject.electricbackend.exception.CustomException;
 import com.dbproject.electricbackend.model.entity.User;
 import com.dbproject.electricbackend.model.request.UserLogin;
 import com.dbproject.electricbackend.model.request.UserRegister;
-import org.springframework.stereotype.Component;
 
 import java.sql.SQLException;
 import java.util.List;

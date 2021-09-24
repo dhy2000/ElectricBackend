@@ -7,11 +7,11 @@ import com.dbproject.electricbackend.model.entity.User;
 import com.dbproject.electricbackend.model.request.UserRegister;
 import com.dbproject.electricbackend.model.response.StatusMessage;
 import com.dbproject.electricbackend.service.UserService;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
 import java.util.List;
 
