@@ -1,4 +1,4 @@
-package com.dbproject.electricbackend.model.request;
+package com.dbproject.electricbackend.schema;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -10,7 +10,7 @@ import java.util.Date;
 
 @ApiModel("用户注册请求")
 @Data
-public class UserRegister {
+public class RegisterRequest {
     @Getter
     @NonNull
     @ApiModelProperty("用户名(必须唯一, 不超过 32 字符)")

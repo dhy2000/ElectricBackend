@@ -1,7 +1,8 @@
 package com.dbproject.electricbackend.mapper;
 
-import com.dbproject.electricbackend.model.entity.User;
-import com.dbproject.electricbackend.model.request.UserRegister;
+import com.dbproject.electricbackend.schema.User;
+import com.dbproject.electricbackend.schema.RegisterRequest;
+import com.dbproject.electricbackend.schema.UserSummary;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -16,12 +17,14 @@ public interface UserMapper {
 //            @Result(property = "username", column = "username", jdbcType = JdbcType.VARCHAR),
 //            @Result(property = "nickname", column = "nickname", jdbcType = JdbcType.VARCHAR)
 //    })
-    List<User> getAllUsers() throws ClassNotFoundException, SQLException;
+    List<UserSummary> getUserList() throws ClassNotFoundException, SQLException;
 
 //    @Insert("insert into user(username, password, nickname) values(#{username}, #{password}, #{nickname})")
-    void addUser(UserRegister register) throws ClassNotFoundException, SQLException;
+    void addUser(RegisterRequest register) throws ClassNotFoundException, SQLException;
+
+    Optional<UserSummary> getUserSummaryById(int id) throws ClassNotFoundException, SQLException;
 
     Optional<User> getUserById(int id) throws ClassNotFoundException, SQLException;
 
-    Optional<User> getUserWithNameAndPassword(String username, String password) throws ClassNotFoundException, SQLException;
+    Optional<UserSummary> getUserSummaryWithNameAndPassword(String username, String password) throws ClassNotFoundException, SQLException;
 }

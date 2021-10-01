@@ -2,9 +2,9 @@ package com.dbproject.electricbackend.controller;
 
 import com.dbproject.electricbackend.auth.AuthRequired;
 import com.dbproject.electricbackend.auth.TokenUtil;
-import com.dbproject.electricbackend.model.request.UserLogin;
-import com.dbproject.electricbackend.model.response.LoginSuccess;
-import com.dbproject.electricbackend.model.response.StatusMessage;
+import com.dbproject.electricbackend.schema.LoginRequest;
+import com.dbproject.electricbackend.schema.TokenAssign;
+import com.dbproject.electricbackend.schema.StatusMessage;
 import com.dbproject.electricbackend.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -25,10 +25,10 @@ public class AuthController {
 
     @ApiOperation("用户登录")
     @PostMapping(value = "login")
-    public LoginSuccess login(@RequestBody UserLogin login) throws Exception {
+    public TokenAssign login(@RequestBody LoginRequest login) throws Exception {
         int userId = userService.loginAndGetId(login);
         String token = TokenUtil.createToken(userId, login.getPassword());
-        return new LoginSuccess(token);
+        return new TokenAssign(token);
     }
 
     @ApiOperation("用户注销")

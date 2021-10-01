@@ -1,6 +1,6 @@
 package com.dbproject.electricbackend.controller;
 
-import com.dbproject.electricbackend.model.response.ProjectInfo;
+import com.dbproject.electricbackend.schema.ProjectInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.MediaType;

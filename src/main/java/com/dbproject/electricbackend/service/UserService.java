@@ -1,24 +1,23 @@
 package com.dbproject.electricbackend.service;
 
 import com.dbproject.electricbackend.exception.CustomException;
-import com.dbproject.electricbackend.model.entity.User;
-import com.dbproject.electricbackend.model.request.UserLogin;
-import com.dbproject.electricbackend.model.request.UserRegister;
+import com.dbproject.electricbackend.schema.User;
+import com.dbproject.electricbackend.schema.LoginRequest;
+import com.dbproject.electricbackend.schema.RegisterRequest;
+import com.dbproject.electricbackend.schema.UserSummary;
 
 import java.sql.SQLException;
 import java.util.List;
 
 public interface UserService {
 
-    List<User> getAllUsers() throws ClassNotFoundException, SQLException;
+    List<UserSummary> getUserList() throws ClassNotFoundException, SQLException;
 
-    void addUser(UserRegister register) throws ClassNotFoundException, SQLException;
+    void addUser(RegisterRequest register) throws ClassNotFoundException, SQLException;
 
-    int loginAndGetId(UserLogin login) throws ClassNotFoundException, SQLException, CustomException;
-
-    String getUsernameById(int userId) throws ClassNotFoundException, SQLException, CustomException;
-
-    String getNicknameById(int userId) throws ClassNotFoundException, SQLException, CustomException;
+    int loginAndGetId(LoginRequest login) throws ClassNotFoundException, SQLException, CustomException;
 
     User getUserById(int userId) throws ClassNotFoundException, SQLException, CustomException;
+
+    UserSummary getUserSummaryById(int userId) throws ClassNotFoundException, SQLException, CustomException;
 }

@@ -3,9 +3,10 @@ package com.dbproject.electricbackend.controller;
 import com.dbproject.electricbackend.auth.AuthRequired;
 import com.dbproject.electricbackend.auth.TokenUtil;
 import com.dbproject.electricbackend.exception.CustomException;
-import com.dbproject.electricbackend.model.entity.User;
-import com.dbproject.electricbackend.model.request.UserRegister;
-import com.dbproject.electricbackend.model.response.StatusMessage;
+import com.dbproject.electricbackend.schema.User;
+import com.dbproject.electricbackend.schema.RegisterRequest;
+import com.dbproject.electricbackend.schema.StatusMessage;
+import com.dbproject.electricbackend.schema.UserSummary;
 import com.dbproject.electricbackend.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -29,22 +30,31 @@ public class UserController {
 
     @ApiOperation("用户注册")
     @PostMapping("register")
-    public StatusMessage userRegister(@RequestBody UserRegister register) throws SQLException, ClassNotFoundException {
+    public StatusMessage userRegister(@RequestBody RegisterRequest register) throws SQLException, ClassNotFoundException {
         userService.addUser(register);
         return StatusMessage.successfulStatus();
     }
 
     @ApiOperation("获取当前存在的全部用户")
     @GetMapping("userlist")
-    public List<User> userList() throws SQLException, ClassNotFoundException {
-        return userService.getAllUsers();
+    public List<UserSummary> userList() throws SQLException, ClassNotFoundException {
+        return userService.getUserList();
     }
 
-    @ApiOperation("查看当前登录用户信息")
+    @ApiOperation("查看当前登录用户的简略信息")
     @GetMapping("whoami")
     @AuthRequired
-    public User whoAmI(@RequestHeader("Token") String token)
+    public UserSummary whoAmI(@RequestHeader("Token") String token)
             throws SQLException, CustomException, ClassNotFoundException {
+        int userId = TokenUtil.verifyTokenAndGetUserId(token);
+        return userService.getUserSummaryById(userId);
+    }
+
+    @ApiOperation("查看当前用户的完整信息")
+    @GetMapping("userinfo")
+    @AuthRequired
+    public User userInfo(@RequestHeader("Token") String token)
+            throws CustomException, SQLException, ClassNotFoundException {
         int userId = TokenUtil.verifyTokenAndGetUserId(token);
         return userService.getUserById(userId);
     }

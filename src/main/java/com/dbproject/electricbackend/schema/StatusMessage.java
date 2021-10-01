@@ -1,4 +1,4 @@
-package com.dbproject.electricbackend.model.response;
+package com.dbproject.electricbackend.schema;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

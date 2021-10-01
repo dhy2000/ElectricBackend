@@ -1,4 +1,4 @@
-package com.dbproject.electricbackend.model.request;
+package com.dbproject.electricbackend.schema;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -8,7 +8,7 @@ import lombok.NonNull;
 
 @ApiModel("用户登录请求")
 @Data
-public class UserLogin {
+public class LoginRequest {
     @Getter
     @NonNull
     @ApiModelProperty("用户名")

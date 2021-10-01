@@ -1,4 +1,4 @@
-package com.dbproject.electricbackend.model.entity;
+package com.dbproject.electricbackend.schema;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -47,6 +47,7 @@ public class User {
     private final String phone;
 
     @Getter
+    @NonNull
     @ApiModelProperty("余额")
-    private final int balance;
+    private final Integer balance;
 }
