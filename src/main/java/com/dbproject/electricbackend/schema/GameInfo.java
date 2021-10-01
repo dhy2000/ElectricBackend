@@ -33,10 +33,6 @@ public class GameInfo {
     @ApiModelProperty("游戏介绍")
     private final String describe;
 
-    @Getter
-    @ApiModelProperty("是否为多人联机游戏")
-    private final boolean multiPlayer;
-
     @Data
     @ApiModel("游戏支持的设备列表")
     @AllArgsConstructor
@@ -70,6 +66,10 @@ public class GameInfo {
     @Getter
     @ApiModelProperty("支持的系统")
     private final SupportDevices supportDevices;
+
+    @Getter
+    @ApiModelProperty("是否为多人联机游戏")
+    private final boolean multiPlayer;
 
     @Getter
     @ApiModelProperty("最低适合玩该游戏的年龄，如为 0 则表示全年龄段")
