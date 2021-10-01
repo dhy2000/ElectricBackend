@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NonNull;
 
 @Data
-@ApiModel("简略的用户信息")
+@ApiModel("用户简略信息")
 public class UserSummary {
     @Getter
     @NonNull

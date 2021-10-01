@@ -10,7 +10,7 @@ import lombok.NonNull;
 import java.util.Date;
 
 @Data
-@ApiModel("用户实体")
+@ApiModel("用户信息")
 @AllArgsConstructor
 public class User {
     @Getter

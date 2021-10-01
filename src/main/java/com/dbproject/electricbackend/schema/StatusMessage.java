@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NonNull;
 
-@ApiModel("操作结果状态信息返回")
+@ApiModel("操作结果")
 @Data
 @AllArgsConstructor
 public class StatusMessage {

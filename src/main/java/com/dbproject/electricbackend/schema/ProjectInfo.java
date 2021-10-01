@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
-@ApiModel("工程信息返回")
+@ApiModel("项目基本信息")
 @Data
 @NoArgsConstructor
 public class ProjectInfo {
