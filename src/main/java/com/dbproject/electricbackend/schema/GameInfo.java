@@ -14,7 +14,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class GameInfo {
     @Getter
-    @ApiModelProperty("游戏 ID（不展示，前端需要保存以进行后续可能的请求）")
+    @ApiModelProperty("游戏编号（不展示，前端需要保存以进行后续可能的请求）")
     private final Integer id;
 
     @Getter
