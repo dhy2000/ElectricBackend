@@ -19,4 +19,4 @@ RUN mvn compile && mvn package && cd target && rm -r `ls | grep -v ".jar$"` && c
 EXPOSE 8000
 
 # Set Entrypoint
-ENTRYPOINT ["java", "-jar", "SpringApplication.jar"]
+ENTRYPOINT ["java", "-jar", "SpringApplication.jar", "--spring.datasource.username=$DB_USER", "--spring.datasource.password=$DB_PASSWORD"]
