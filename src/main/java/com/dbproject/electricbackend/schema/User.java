@@ -35,7 +35,7 @@ public class User {
 
     @Getter
     @NonNull
-    @ApiModelProperty("出生日期")
+    @ApiModelProperty("出生日期, 建议格式: YYYY-MM-DD，示例: 1970-01-01")
     private final Date birthday;
 
     @Getter

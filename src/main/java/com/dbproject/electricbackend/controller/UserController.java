@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.sql.SQLException;
 import java.util.List;
 
-@Api(tags = "用户操作接口")
+@Api(tags = "用户")
 @RequestMapping("/user")
 @RestController
 public class UserController {

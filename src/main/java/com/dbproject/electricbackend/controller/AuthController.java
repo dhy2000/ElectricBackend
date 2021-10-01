@@ -11,7 +11,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-@Api(tags = "身份验证")
+@Api(tags = "登录注销")
 @RequestMapping("/auth")
 @RestController
 public class AuthController {
