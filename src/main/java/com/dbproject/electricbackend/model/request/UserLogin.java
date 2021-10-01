@@ -16,6 +16,6 @@ public class UserLogin {
 
     @Getter
     @NonNull
-    @ApiModelProperty("密码(MD5加密后)")
-    private final String password;    // md5 encrypted
+    @ApiModelProperty("密码")
+    private final String password;
 }

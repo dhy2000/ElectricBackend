@@ -2,12 +2,16 @@ package com.dbproject.electricbackend.model.entity;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NonNull;
 
+import java.util.Date;
+
 @Data
 @ApiModel("用户实体")
+@AllArgsConstructor
 public class User {
     @Getter
     @NonNull
@@ -22,11 +26,27 @@ public class User {
     @Getter
     @NonNull
     @ApiModelProperty("用户昵称")
-    private String nickname;
+    private final String nickname;
 
-    public User(Integer id, String username, String nickname) {
-        this.id = id;
-        this.username = username;
-        this.nickname = nickname;
-    }
+    @Getter
+    @NonNull
+    @ApiModelProperty("个性签名")
+    private final String signature;
+
+    @Getter
+    @NonNull
+    @ApiModelProperty("出生日期")
+    private final Date birthday;
+
+    @Getter
+    @ApiModelProperty("电子邮箱")
+    private final String email;
+
+    @Getter
+    @ApiModelProperty("电话")
+    private final String phone;
+
+    @Getter
+    @ApiModelProperty("余额")
+    private final int balance;
 }
