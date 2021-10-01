@@ -2,7 +2,7 @@ package com.dbproject.electricbackend.service.impl;
 
 import com.dbproject.electricbackend.exception.CustomException;
 import com.dbproject.electricbackend.mapper.UserMapper;
-import com.dbproject.electricbackend.schema.User;
+import com.dbproject.electricbackend.schema.UserInfo;
 import com.dbproject.electricbackend.schema.LoginRequest;
 import com.dbproject.electricbackend.schema.RegisterRequest;
 import com.dbproject.electricbackend.schema.UserSummary;
@@ -45,8 +45,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserById(int userId) throws ClassNotFoundException, SQLException, CustomException {
-        Optional<User> user = userMapper.getUserById(userId);
+    public UserInfo getUserById(int userId) throws ClassNotFoundException, SQLException, CustomException {
+        Optional<UserInfo> user = userMapper.getUserById(userId);
         if (!user.isPresent()) {
             throw CustomException.defined(CustomException.Define.NON_EXIST_USER);
         }

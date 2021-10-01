@@ -1,6 +1,6 @@
 package com.dbproject.electricbackend.mapper;
 
-import com.dbproject.electricbackend.schema.User;
+import com.dbproject.electricbackend.schema.UserInfo;
 import com.dbproject.electricbackend.schema.RegisterRequest;
 import com.dbproject.electricbackend.schema.UserSummary;
 
@@ -24,7 +24,7 @@ public interface UserMapper {
 
     Optional<UserSummary> getUserSummaryById(int id) throws ClassNotFoundException, SQLException;
 
-    Optional<User> getUserById(int id) throws ClassNotFoundException, SQLException;
+    Optional<UserInfo> getUserById(int id) throws ClassNotFoundException, SQLException;
 
     Optional<UserSummary> getUserSummaryWithNameAndPassword(String username, String password) throws ClassNotFoundException, SQLException;
 }

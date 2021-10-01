@@ -3,7 +3,7 @@ package com.dbproject.electricbackend.controller;
 import com.dbproject.electricbackend.auth.AuthRequired;
 import com.dbproject.electricbackend.auth.TokenUtil;
 import com.dbproject.electricbackend.exception.CustomException;
-import com.dbproject.electricbackend.schema.User;
+import com.dbproject.electricbackend.schema.UserInfo;
 import com.dbproject.electricbackend.schema.RegisterRequest;
 import com.dbproject.electricbackend.schema.StatusMessage;
 import com.dbproject.electricbackend.schema.UserSummary;
@@ -53,7 +53,7 @@ public class UserController {
     @ApiOperation("查看当前用户的完整信息")
     @GetMapping("userinfo")
     @AuthRequired
-    public User userInfo(@RequestHeader("Token") String token)
+    public UserInfo userInfo(@RequestHeader("Token") String token)
             throws CustomException, SQLException, ClassNotFoundException {
         int userId = TokenUtil.verifyTokenAndGetUserId(token);
         return userService.getUserById(userId);

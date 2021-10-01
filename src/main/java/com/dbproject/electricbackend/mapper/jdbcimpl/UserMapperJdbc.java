@@ -1,7 +1,7 @@
 package com.dbproject.electricbackend.mapper.jdbcimpl;
 
 import com.dbproject.electricbackend.mapper.UserMapper;
-import com.dbproject.electricbackend.schema.User;
+import com.dbproject.electricbackend.schema.UserInfo;
 import com.dbproject.electricbackend.schema.RegisterRequest;
 import com.dbproject.electricbackend.schema.UserSummary;
 import lombok.extern.log4j.Log4j2;
@@ -99,7 +99,7 @@ public class UserMapperJdbc implements UserMapper {
     }
 
     @Override
-    public Optional<User> getUserById(int userId) throws ClassNotFoundException, SQLException {
+    public Optional<UserInfo> getUserById(int userId) throws ClassNotFoundException, SQLException {
         Connection conn = null;
         PreparedStatement query = null;
         ResultSet result = null;
@@ -119,7 +119,7 @@ public class UserMapperJdbc implements UserMapper {
                 String email = result.getString("email");
                 String phone = result.getString("phone");
                 Integer balance = result.getInt("balance");
-                return Optional.of(new User(id, username, nickname, signature, birthday, email, phone, balance));
+                return Optional.of(new UserInfo(id, username, nickname, signature, birthday, email, phone, balance));
             } else {
                 return Optional.empty();
             }

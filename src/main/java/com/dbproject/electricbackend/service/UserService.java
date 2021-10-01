@@ -1,7 +1,7 @@
 package com.dbproject.electricbackend.service;
 
 import com.dbproject.electricbackend.exception.CustomException;
-import com.dbproject.electricbackend.schema.User;
+import com.dbproject.electricbackend.schema.UserInfo;
 import com.dbproject.electricbackend.schema.LoginRequest;
 import com.dbproject.electricbackend.schema.RegisterRequest;
 import com.dbproject.electricbackend.schema.UserSummary;
@@ -17,7 +17,7 @@ public interface UserService {
 
     int loginAndGetId(LoginRequest login) throws ClassNotFoundException, SQLException, CustomException;
 
-    User getUserById(int userId) throws ClassNotFoundException, SQLException, CustomException;
+    UserInfo getUserById(int userId) throws ClassNotFoundException, SQLException, CustomException;
 
     UserSummary getUserSummaryById(int userId) throws ClassNotFoundException, SQLException, CustomException;
 }
