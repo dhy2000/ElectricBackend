@@ -23,4 +23,4 @@ EXPOSE 8000
 
 # Set Entrypoint
 #ENTRYPOINT ["java", "-jar", "SpringApplication.jar", "--spring.datasource.username=$DB_USER", "--spring.datasource.password=$DB_PASSWORD"]
-ENTRYPOINT ['start.sh']
+ENTRYPOINT ["start.sh"]
