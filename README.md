@@ -2,7 +2,7 @@
 
 数据库大作业项目 Electric 后端程序。
 
-## 构建说明
+## 环境说明
 
 本项目采用 Java 语言，SpringBoot 框架，maven 构建工具。
 
@@ -13,7 +13,11 @@
 
 安装好上述依赖环境后，clone 本仓库并执行 maven 的相应命令即可编译并构建工程。
 
-命令示例：
+## 构建说明
+
+当前的工程中未填入数据库用户名和密码，需在 `src/main/resources/application.yml` 中补充后方可构建工程。（对于在线部署版本，数据库用户密码以运行参数形式在启动时提供）
+
+构建工程命令示例：
 ```shell
 cd ElectricBackend  # 进入工程目录
 mvn compile && mvn package # 使用 maven 编译并打包为 jar
