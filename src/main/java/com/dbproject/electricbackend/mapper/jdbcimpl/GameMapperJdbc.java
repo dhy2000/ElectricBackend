@@ -76,7 +76,7 @@ public class GameMapperJdbc implements GameMapper {
             Class.forName(dbDriverName);
             conn = DriverManager.getConnection(dbAddress, dbUserName, dbPassword);
             String sql = "SELECT `id`, `name`, `price`, `release_date`, `describe`, " +
-                    "`support_device`, `is_multi_player`, `min_age` FROM `game` WHERE `id` = ?";
+                    "`support_system`, `is_multi_player`, `min_age` FROM `game` WHERE `id` = ?";
             query = conn.prepareStatement(sql);
             query.setInt(1, gameId);
             log.info(query);
@@ -87,12 +87,12 @@ public class GameMapperJdbc implements GameMapper {
                 Integer price = result.getInt("price");
                 Date releaseDate = result.getDate("release_date");
                 String describe = result.getString("describe");
-                String supportDeviceStr = result.getString("support_device");
+                String supportSystemStr = result.getString("support_system");
                 boolean multiPlayer = result.getBoolean("is_multi_player");
                 Integer minAge = result.getInt("min_age");
-                GameInfo.SupportDevices supportDevices = parseSupportDevices(supportDeviceStr);
+                Collection<GameInfo.SupportSystem> supportSystem = parseSupportDevices(supportSystemStr);
                 return Optional.of(new GameInfo(id, name, price, releaseDate,
-                        describe, supportDevices, multiPlayer, minAge));
+                        describe, supportSystem, multiPlayer, minAge));
             } else {
                 return Optional.empty();
             }
@@ -101,9 +101,10 @@ public class GameMapperJdbc implements GameMapper {
         }
     }
 
-    private GameInfo.SupportDevices parseSupportDevices(String json) {
+    private Collection<GameInfo.SupportSystem> parseSupportDevices(String json) {
         Gson gson = new Gson();
-        return gson.fromJson(json, GameInfo.SupportDevices.class);
+        GameInfo.SupportSystem[] systems = gson.fromJson(json, GameInfo.SupportSystem[].class);
+        return Arrays.asList(systems);
     }
 
     @Override

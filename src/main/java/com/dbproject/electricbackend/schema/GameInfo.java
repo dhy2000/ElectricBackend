@@ -34,38 +34,30 @@ public class GameInfo {
     private final String describe;
 
     @Data
-    @ApiModel("游戏支持的设备列表")
+    @ApiModel("游戏支持的一种系统信息")
     @AllArgsConstructor
-    public static class SupportDevices {
-        @Data
-        @ApiModel("游戏支持的一种系统的具体信息")
-        @AllArgsConstructor
-        public static class System {
-            @Getter
-            @ApiModelProperty("操作系统名称")
-            private final String name;
-
-            @Getter
-            @ApiModelProperty("最低所需版本")
-            private final String version;
-
-            @Getter
-            @ApiModelProperty("最低需要的处理器配置")
-            private final String processor;
-
-            @Getter
-            @ApiModelProperty("最低需要的内存配置")
-            private final String memory;
-        }
+    public static class SupportSystem {
 
         @Getter
-        @ApiModelProperty("支持的系统列表")
-        private final Collection<System> system;
+        @ApiModelProperty("操作系统名称")
+        private final String name;
+
+        @Getter
+        @ApiModelProperty("最低所需版本")
+        private final String version;
+
+        @Getter
+        @ApiModelProperty("最低需要的处理器配置")
+        private final String processor;
+
+        @Getter
+        @ApiModelProperty("最低需要的内存配置")
+        private final String memory;
     }
 
     @Getter
-    @ApiModelProperty("支持的系统")
-    private final SupportDevices supportDevices;
+    @ApiModelProperty("支持的系统列表")
+    private final Collection<SupportSystem> supportSystems;
 
     @Getter
     @ApiModelProperty("是否为多人联机游戏")
