@@ -4,12 +4,12 @@
 
 ## 环境说明
 
-本项目采用 Java 语言，SpringBoot 框架，maven 构建工具。
+本项目采用 Java 语言，Spring Boot 框架，maven 构建工具。
 
 环境要求：
 - Java Development Kit 8
 - Maven 3.8.2
-- SpringBoot 2.5.4 及其他依赖包 (通过 maven 自动下载并导入)
+- Spring Boot 2.5.4 及其他依赖包 (通过 maven 自动下载并导入)
 
 安装好上述依赖环境后，clone 本仓库并执行 maven 的相应命令即可编译并构建工程。
 
