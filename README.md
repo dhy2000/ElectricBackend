@@ -15,7 +15,7 @@
 
 ## 构建说明
 
-当前的工程中未填入数据库用户名和密码，需在 `src/main/resources/application.yml` 中补充后方可构建工程。（对于在线部署版本，数据库用户密码以运行参数形式在启动时提供）
+当前的工程中未填入数据库用户名和密码，需在 `src/main/resources/application.yml` 中补充后方可在本地构建工程。（对于在线部署版本，数据库用户密码以运行参数形式在启动时提供，其值存储在 GitLab 仓库的 CI Variables 中并在 CI/CD 自动部署过程传入）
 
 构建工程命令示例：
 ```shell
