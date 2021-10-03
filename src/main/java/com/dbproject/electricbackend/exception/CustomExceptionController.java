@@ -11,12 +11,12 @@ public class CustomExceptionController {
     @ResponseBody
     @ExceptionHandler(CustomException.class)
     public StatusMessage responseCustomException(CustomException e) {
-        return new StatusMessage(e.getCode(), e.getMessage());
+        return StatusMessage.fromCustomException(e);
     }
 
     @ResponseBody
-    @ExceptionHandler(Exception.class)
-    public StatusMessage responseException (Exception e) {
-        return new StatusMessage(9999, "Exception caught: " + e.getClass().getSimpleName());
+    @ExceptionHandler(Throwable.class)
+    public StatusMessage responseCatch(Throwable th) {
+        return StatusMessage.fromThrowable(th);
     }
 }

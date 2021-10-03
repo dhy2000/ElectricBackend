@@ -11,10 +11,8 @@ public class CustomException extends Exception {
     @Getter
     private final String message;
 
-    private static final int CUSTOMIZE_EXCEPTION_CODE = 9000;
-
     /**
-     * 私有构造方法, 禁止从外部实例化, 仅通过指定的工厂方法进行实例化.
+     * 私有构造方法, 禁止从外部实例化, 仅通过指定的静态方法进行实例化.
      * @param code 异常码
      * @param message 异常信息
      */
@@ -27,8 +25,8 @@ public class CustomException extends Exception {
         return new CustomException(define.getCode(), define.getMessage());
     }
 
-    public static CustomException customized(String message) {
-        return new CustomException(CUSTOMIZE_EXCEPTION_CODE, message);
+    public static CustomException customized(int code, String message) {
+        return new CustomException(code, message);
     }
 
     public enum Define {

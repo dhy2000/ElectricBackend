@@ -1,5 +1,6 @@
 package com.dbproject.electricbackend.schema;
 
+import com.dbproject.electricbackend.exception.CustomException;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -20,9 +21,20 @@ public class StatusMessage {
     @ApiModelProperty("状态信息, 表示操作成功时可以为空串")
     private final String message;
 
+    private static final int CATCH_EXCEPTION_CODE = 9000;
+
     private static final StatusMessage SUCCESSFUL_STATUS = new StatusMessage(0, "");
 
     public static StatusMessage successfulStatus() {
         return SUCCESSFUL_STATUS;
+    }
+
+    public static StatusMessage fromCustomException(CustomException e) {
+        return new StatusMessage(e.getCode(), e.getMessage());
+    }
+
+    public static StatusMessage fromThrowable(Throwable th) {
+        return new StatusMessage(CATCH_EXCEPTION_CODE,
+                "Catch " + th.getClass().getName() + ": " + th.getMessage());
     }
 }
