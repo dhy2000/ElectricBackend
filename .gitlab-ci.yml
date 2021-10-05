@@ -32,4 +32,31 @@ deploy:
     paths:
       - $PROJECT_NAME.jar
 
-# CI Variables: $PROJECT_NAME, $DB_USER, $DB_PASSWORD
+build_develop:
+  stage: build
+  only:
+    - develop
+  tags:
+    - myserver
+  script:
+    - echo "Build docker image"
+    - docker build -t "$DEVELOP_NAME:ci_job_$CI_PIPELINE_ID" .
+    - docker image ls
+
+deploy_develop:
+  stage: deploy
+  only:
+    - develop
+  tags:
+    - myserver
+  script:
+    - echo "Stop running container"
+    - docker stop $DEVELOP_NAME && docker rm $DEVELOP_NAME || true
+    - echo "Start docker container"
+    - docker run --restart=unless-stopped --name=$DEVELOP_NAME -d -e DB_USER="$DB_USER" -e DB_PASSWORD="$DB_PASSWORD" -p 8113:8000 "$DEVELOP_NAME:ci_job_$CI_PIPELINE_ID"
+    - docker ps
+    - rm -f *.jar && docker cp $DEVELOP_NAME:/app/SpringApplication.jar $DEVELOP_NAME.jar
+    - old_images=$(docker image ls | grep $DEVELOP_NAME | grep -v $(docker image ls | grep $DEVELOP_NAME | awk '{print $2}' | awk -F_ '{print $3}' | sort -rn | head -2 | xargs | sed 's/ /\\|/g') | awk '{print $3}') ; if [ -n "$old_images" ]; then docker image rm $old_images ; fi ; unset old_images
+    - docker image ls
+
+# CI Variables: $PROJECT_NAME, $DEVELOP_NAME, $DB_USER, $DB_PASSWORD
