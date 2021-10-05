@@ -26,7 +26,7 @@ deploy:
     - docker run --restart=unless-stopped --name=$PROJECT_NAME -d -e DB_USER="$DB_USER" -e DB_PASSWORD="$DB_PASSWORD" -p 8112:8000 "$PROJECT_NAME:ci_job_$CI_PIPELINE_ID"
     - docker ps
     - rm -f *.jar && docker cp $PROJECT_NAME:/app/SpringApplication.jar $PROJECT_NAME.jar
-    - old_images=$(docker image ls | grep $PROJECT_NAME | grep -v $(docker image ls | grep $PROJECT_NAME | awk '{print $2}' | awk -F_ '{print $3}' | sort -rn | head -2 | xargs | sed 's/ /\\|/g') | awk '{print $3}') ; if [ -n "$old_images" ]; then docker image rm $old_images ; fi ; unset old_images
+    - old_images=$((docker image ls | grep $PROJECT_NAME | grep -v $(docker image ls | grep $PROJECT_NAME | awk '{print $2}' | awk -F_ '{print $3}' | sort -rn | head -2 | xargs | sed 's/ /\\|/g') || true) | awk '{print $3}') ; if [ -n "$old_images" ]; then docker image rm $old_images ; fi ; unset old_images
     - docker image ls
   artifacts:
     paths:
@@ -56,7 +56,7 @@ deploy_develop:
     - docker run --restart=unless-stopped --name=$DEVELOP_NAME -d -e DB_USER="$DB_USER" -e DB_PASSWORD="$DB_PASSWORD" -p 8113:8000 "$DEVELOP_NAME:ci_job_$CI_PIPELINE_ID"
     - docker ps
     - rm -f *.jar && docker cp $DEVELOP_NAME:/app/SpringApplication.jar $DEVELOP_NAME.jar
-    - old_images=$(docker image ls | grep $DEVELOP_NAME | grep -v $(docker image ls | grep $DEVELOP_NAME | awk '{print $2}' | awk -F_ '{print $3}' | sort -rn | head -2 | xargs | sed 's/ /\\|/g') | awk '{print $3}') ; if [ -n "$old_images" ]; then docker image rm $old_images ; fi ; unset old_images
+    - old_images=$((docker image ls | grep $DEVELOP_NAME | grep -v $(docker image ls | grep $DEVELOP_NAME | awk '{print $2}' | awk -F_ '{print $3}' | sort -rn | head -2 | xargs | sed 's/ /\\|/g') || true) | awk '{print $3}') ; if [ -n "$old_images" ]; then docker image rm $old_images ; fi ; unset old_images
     - docker image ls
 
 # CI Variables: $PROJECT_NAME, $DEVELOP_NAME, $DB_USER, $DB_PASSWORD
