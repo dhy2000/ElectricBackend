@@ -7,9 +7,7 @@ import springfox.documentation.oas.annotations.EnableOpenApi;
 @SpringBootApplication
 @EnableOpenApi
 public class ElectricBackendApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(ElectricBackendApplication.class, args);
     }
-
 }

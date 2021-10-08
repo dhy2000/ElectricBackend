@@ -6,3 +6,11 @@ spring:
     username: # runtime argument
     password: # runtime argument
     driver-class-name: com.mysql.cj.jdbc.Driver
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 4KB
+      max-file-size: 8MB
+      max-request-size: 8MB
+file: # customized configuration key
+  file-dir: /storage

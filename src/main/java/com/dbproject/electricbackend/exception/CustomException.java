@@ -37,7 +37,13 @@ public class CustomException extends Exception {
         INVALID_TOKEN(1005, "Token 无效"),
 
         NON_EXIST_GAME(1101, "当前游戏不存在"),
-        NOT_ENOUGH_BALANCE(1102, "玩家余额不足")
+        NOT_ENOUGH_BALANCE(1102, "玩家余额不足"),
+
+        FILE_CREATE_ERROR(2101, "无法创建文件"),
+        FILE_ALREADY_EXIST(2102, "同名文件已存在"),
+        FILE_NOT_EXIST(2103, "文件不存在"),
+        INVALID_FILE_NAME(2104, "非法文件名"),
+        IMAGE_ERROR(2105, "图片返回异常")
         ;
 
         @Getter
