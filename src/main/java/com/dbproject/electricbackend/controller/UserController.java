@@ -3,10 +3,7 @@ package com.dbproject.electricbackend.controller;
 import com.dbproject.electricbackend.auth.AuthRequired;
 import com.dbproject.electricbackend.auth.TokenUtil;
 import com.dbproject.electricbackend.exception.CustomException;
-import com.dbproject.electricbackend.schema.UserInfo;
-import com.dbproject.electricbackend.schema.RegisterRequest;
-import com.dbproject.electricbackend.schema.StatusMessage;
-import com.dbproject.electricbackend.schema.UserSummary;
+import com.dbproject.electricbackend.schema.*;
 import com.dbproject.electricbackend.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -57,5 +54,25 @@ public class UserController {
             throws CustomException, SQLException, ClassNotFoundException {
         int userId = TokenUtil.verifyTokenAndGetUserId(token);
         return userService.getUserById(userId);
+    }
+
+    @ApiOperation("用户充值")
+    @PostMapping("recharge")
+    @AuthRequired
+    public StatusMessage recharge(@RequestHeader("Token") String token,
+                                  @RequestBody RechargeRequest recharge)
+            throws CustomException, SQLException, ClassNotFoundException {
+        int userId = TokenUtil.verifyTokenAndGetUserId(token);
+        userService.recharge(userId, recharge.getAmount());
+        return StatusMessage.successfulStatus();
+    }
+
+    @ApiOperation("查看余额")
+    @GetMapping("balance")
+    @AuthRequired
+    public int balance(@RequestHeader("Token") String token)
+            throws CustomException, SQLException, ClassNotFoundException {
+        int userId = TokenUtil.verifyTokenAndGetUserId(token);
+        return userService.getBalance(userId);
     }
 }

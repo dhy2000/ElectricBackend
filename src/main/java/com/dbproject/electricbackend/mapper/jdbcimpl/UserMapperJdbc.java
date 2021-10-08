@@ -42,7 +42,6 @@ public class UserMapperJdbc implements UserMapper {
             conn = DriverManager.getConnection(dbAddress, dbUserName, dbPassword);
 //            String sql = "SELECT `id`, `username`, `nickname`, `signature`, `birthday`, `email`, `phone`, `balance`  FROM `user`;";
             String sql = "SELECT `id`, `username`, `nickname` FROM `user`";
-            log.info(sql);
             query = conn.prepareStatement(sql);
             result = query.executeQuery();
             while (result.next()) {
@@ -73,7 +72,7 @@ public class UserMapperJdbc implements UserMapper {
             query.setDate(4, new Date(register.getBirthday().getTime()));
             query.setString(5, register.getEmail());
             query.setString(6, register.getPhone());
-            log.info(sql);
+            log.info(query);
             query.executeUpdate();
         } finally {
             close(conn, query, null);
@@ -142,6 +141,46 @@ public class UserMapperJdbc implements UserMapper {
             query.setString(2, password);
             result = query.executeQuery();
             return getSingleUserSummaryFromResult(result);
+        } finally {
+            close(conn, query, result);
+        }
+    }
+
+    @Override
+    public void recharge(int userId, int amount) throws SQLException, ClassNotFoundException {
+        Connection conn = null;
+        PreparedStatement query = null;
+        try {
+            Class.forName(dbDriverName);
+            conn = DriverManager.getConnection(dbAddress, dbUserName, dbPassword);
+            String sql = "UPDATE `user` SET `balance` = `balance` + ? WHERE `id` = ?";
+            query = conn.prepareStatement(sql);
+            query.setInt(1, amount);
+            query.setInt(2, userId);
+            query.executeUpdate();
+        } finally {
+            close(conn, query, null);
+        }
+    }
+
+    @Override
+    public Optional<Integer> getBalance(int userId) throws ClassNotFoundException, SQLException {
+        Connection conn = null;
+        PreparedStatement query = null;
+        ResultSet result = null;
+        try {
+            Class.forName(dbDriverName);
+            conn = DriverManager.getConnection(dbAddress, dbUserName, dbPassword);
+            String sql = "SELECT `balance` FROM `user` WHERE `id` = ?";
+            query = conn.prepareStatement(sql);
+            query.setInt(1, userId);
+            result = query.executeQuery();
+            if (result.next()) {
+                Integer balance = result.getInt("balance");
+                return Optional.of(balance);
+            } else {
+                return Optional.empty();
+            }
         } finally {
             close(conn, query, result);
         }

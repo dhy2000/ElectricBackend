@@ -2,10 +2,7 @@ package com.dbproject.electricbackend.service.impl;
 
 import com.dbproject.electricbackend.exception.CustomException;
 import com.dbproject.electricbackend.mapper.UserMapper;
-import com.dbproject.electricbackend.schema.UserInfo;
-import com.dbproject.electricbackend.schema.LoginRequest;
-import com.dbproject.electricbackend.schema.RegisterRequest;
-import com.dbproject.electricbackend.schema.UserSummary;
+import com.dbproject.electricbackend.schema.*;
 import com.dbproject.electricbackend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -60,5 +57,22 @@ public class UserServiceImpl implements UserService {
             throw CustomException.defined(CustomException.Define.NON_EXIST_USER);
         }
         return user.get();
+    }
+
+    @Override
+    public void recharge(int userId, int amount) throws CustomException, SQLException, ClassNotFoundException {
+        if (amount <= 0) {
+            throw CustomException.defined(CustomException.Define.ILLEGAL_RECHARGE_AMOUNT);
+        }
+        userMapper.recharge(userId, amount);
+    }
+
+    @Override
+    public int getBalance(int userId) throws SQLException, ClassNotFoundException, CustomException {
+        Optional<Integer> balance = userMapper.getBalance(userId);
+        if (!balance.isPresent()) {
+            throw CustomException.defined(CustomException.Define.NON_EXIST_USER);
+        }
+        return balance.get();
     }
 }

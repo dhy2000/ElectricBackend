@@ -27,4 +27,8 @@ public interface UserMapper {
     Optional<UserInfo> getUserById(int id) throws ClassNotFoundException, SQLException;
 
     Optional<UserSummary> getUserSummaryWithNameAndPassword(String username, String password) throws ClassNotFoundException, SQLException;
+
+    void recharge(int userId, int amount) throws SQLException, ClassNotFoundException;
+
+    Optional<Integer> getBalance(int userId) throws ClassNotFoundException, SQLException;
 }

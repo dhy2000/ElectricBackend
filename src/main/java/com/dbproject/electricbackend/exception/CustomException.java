@@ -38,6 +38,7 @@ public class CustomException extends Exception {
 
         NON_EXIST_GAME(1101, "当前游戏不存在"),
         NOT_ENOUGH_BALANCE(1102, "玩家余额不足"),
+        ILLEGAL_RECHARGE_AMOUNT(1103, "充值金额非法"),
 
         FILE_CREATE_ERROR(2101, "无法创建文件"),
         FILE_ALREADY_EXIST(2102, "同名文件已存在"),
