@@ -9,7 +9,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.websocket.server.PathParam;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -50,7 +52,7 @@ public class UserController {
     @ApiOperation("查看当前用户的完整信息")
     @GetMapping("userinfo")
     @AuthRequired
-    public UserInfo userInfo(@RequestHeader("Token") String token)
+    public UserProfile userInfo(@RequestHeader("Token") String token)
             throws CustomException, SQLException, ClassNotFoundException {
         int userId = TokenUtil.verifyTokenAndGetUserId(token);
         return userService.getUserById(userId);
@@ -74,5 +76,19 @@ public class UserController {
             throws CustomException, SQLException, ClassNotFoundException {
         int userId = TokenUtil.verifyTokenAndGetUserId(token);
         return userService.getBalance(userId);
+    }
+
+    @ApiOperation("获取头像 URL")
+    @GetMapping("avatar")
+    public String getAvatarUrl(@RequestParam("user") int userId) throws SQLException, ClassNotFoundException, CustomException {
+        return userService.getAvatar(userId);
+    }
+
+    @ApiOperation("设置头像")
+    @PostMapping("setAvatar/{userId:\\d+}")
+    public StatusMessage setAvatar(@PathVariable("userId") int userId, @RequestParam("file") MultipartFile image)
+            throws SQLException, CustomException, ClassNotFoundException {
+        userService.setAvatar(userId, image);
+        return StatusMessage.successfulStatus();
     }
 }

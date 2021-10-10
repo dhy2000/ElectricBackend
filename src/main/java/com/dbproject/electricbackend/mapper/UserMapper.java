@@ -1,6 +1,7 @@
 package com.dbproject.electricbackend.mapper;
 
-import com.dbproject.electricbackend.schema.UserInfo;
+import com.dbproject.electricbackend.exception.CustomException;
+import com.dbproject.electricbackend.schema.UserProfile;
 import com.dbproject.electricbackend.schema.RegisterRequest;
 import com.dbproject.electricbackend.schema.UserSummary;
 
@@ -24,11 +25,15 @@ public interface UserMapper {
 
     Optional<UserSummary> getUserSummaryById(int id) throws ClassNotFoundException, SQLException;
 
-    Optional<UserInfo> getUserById(int id) throws ClassNotFoundException, SQLException;
+    Optional<UserProfile> getUserById(int id) throws ClassNotFoundException, SQLException;
 
     Optional<UserSummary> getUserSummaryWithNameAndPassword(String username, String password) throws ClassNotFoundException, SQLException;
 
     void recharge(int userId, int amount) throws SQLException, ClassNotFoundException;
 
-    Optional<Integer> getBalance(int userId) throws ClassNotFoundException, SQLException;
+    Optional<Integer> getBalance(int userId) throws ClassNotFoundException, SQLException, CustomException;
+
+    void setAvatar(int userId, String url) throws SQLException, ClassNotFoundException;
+
+    Optional<String> getAvatar(int userId) throws ClassNotFoundException, SQLException, CustomException;
 }

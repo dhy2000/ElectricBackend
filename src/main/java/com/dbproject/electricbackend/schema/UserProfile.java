@@ -12,7 +12,7 @@ import java.util.Date;
 @Data
 @ApiModel("用户信息")
 @AllArgsConstructor
-public class UserInfo {
+public class UserProfile {
     @Getter
     @NonNull
     @ApiModelProperty("用户编号(唯一且自动递增)")

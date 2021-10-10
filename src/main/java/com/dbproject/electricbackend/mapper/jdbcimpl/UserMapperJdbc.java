@@ -1,7 +1,8 @@
 package com.dbproject.electricbackend.mapper.jdbcimpl;
 
+import com.dbproject.electricbackend.exception.CustomException;
 import com.dbproject.electricbackend.mapper.UserMapper;
-import com.dbproject.electricbackend.schema.UserInfo;
+import com.dbproject.electricbackend.schema.UserProfile;
 import com.dbproject.electricbackend.schema.RegisterRequest;
 import com.dbproject.electricbackend.schema.UserSummary;
 import lombok.extern.log4j.Log4j2;
@@ -98,7 +99,7 @@ public class UserMapperJdbc implements UserMapper {
     }
 
     @Override
-    public Optional<UserInfo> getUserById(int userId) throws ClassNotFoundException, SQLException {
+    public Optional<UserProfile> getUserById(int userId) throws ClassNotFoundException, SQLException {
         Connection conn = null;
         PreparedStatement query = null;
         ResultSet result = null;
@@ -118,7 +119,7 @@ public class UserMapperJdbc implements UserMapper {
                 String email = result.getString("email");
                 String phone = result.getString("phone");
                 Integer balance = result.getInt("balance");
-                return Optional.of(new UserInfo(id, username, nickname, signature, birthday, email, phone, balance));
+                return Optional.of(new UserProfile(id, username, nickname, signature, birthday, email, phone, balance));
             } else {
                 return Optional.empty();
             }
@@ -164,7 +165,7 @@ public class UserMapperJdbc implements UserMapper {
     }
 
     @Override
-    public Optional<Integer> getBalance(int userId) throws ClassNotFoundException, SQLException {
+    public Optional<Integer> getBalance(int userId) throws ClassNotFoundException, SQLException, CustomException {
         Connection conn = null;
         PreparedStatement query = null;
         ResultSet result = null;
@@ -179,7 +180,47 @@ public class UserMapperJdbc implements UserMapper {
                 Integer balance = result.getInt("balance");
                 return Optional.of(balance);
             } else {
-                return Optional.empty();
+                throw CustomException.defined(CustomException.Define.NON_EXIST_USER);
+            }
+        } finally {
+            close(conn, query, result);
+        }
+    }
+
+    @Override
+    public void setAvatar(int userId, String url) throws SQLException, ClassNotFoundException {
+        Connection conn = null;
+        PreparedStatement query = null;
+        try {
+            Class.forName(dbDriverName);
+            conn = DriverManager.getConnection(dbAddress, dbUserName, dbPassword);
+            String sql = "UPDATE `user` SET `avatar` = ? WHERE `id` = ?";
+            query = conn.prepareStatement(sql);
+            query.setString(1, url);
+            query.setInt(2, userId);
+            query.executeUpdate();
+        } finally {
+            close(conn, query, null);
+        }
+    }
+
+    @Override
+    public Optional<String> getAvatar(int userId) throws ClassNotFoundException, SQLException, CustomException {
+        Connection conn = null;
+        PreparedStatement query = null;
+        ResultSet result = null;
+        try {
+            Class.forName(dbDriverName);
+            conn = DriverManager.getConnection(dbAddress, dbUserName, dbPassword);
+            String sql = "SELECT `avatar` FROM `user` WHERE `id` = ?";
+            query = conn.prepareStatement(sql);
+            query.setInt(1, userId);
+            result = query.executeQuery();
+            if (result.next()) {
+                String avatar = result.getString("avatar");
+                return Optional.ofNullable(avatar);
+            } else {
+                throw CustomException.defined(CustomException.Define.NON_EXIST_USER);
             }
         } finally {
             close(conn, query, result);

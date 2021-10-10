@@ -1,12 +1,24 @@
 package com.dbproject.electricbackend.service.impl;
 
+import com.dbproject.electricbackend.config.FileConfiguration;
 import com.dbproject.electricbackend.exception.CustomException;
 import com.dbproject.electricbackend.mapper.UserMapper;
-import com.dbproject.electricbackend.schema.*;
+import com.dbproject.electricbackend.schema.LoginRequest;
+import com.dbproject.electricbackend.schema.RegisterRequest;
+import com.dbproject.electricbackend.schema.UserProfile;
+import com.dbproject.electricbackend.schema.UserSummary;
 import com.dbproject.electricbackend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
@@ -14,11 +26,15 @@ import java.util.Optional;
 @Service
 public class UserServiceImpl implements UserService {
 
+    private static final String IMAGE_URI_PREFIX = "/file/image/";
+
+    private final Path storage;
     private final UserMapper userMapper;
 
     @Autowired
-    public UserServiceImpl(UserMapper userMapper) {
+    public UserServiceImpl(UserMapper userMapper, FileConfiguration config) {
         this.userMapper = userMapper;
+        this.storage = Paths.get(config.getFileDir()).toAbsolutePath().normalize();
     }
 
     @Override
@@ -42,8 +58,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserInfo getUserById(int userId) throws ClassNotFoundException, SQLException, CustomException {
-        Optional<UserInfo> user = userMapper.getUserById(userId);
+    public UserProfile getUserById(int userId) throws ClassNotFoundException, SQLException, CustomException {
+        Optional<UserProfile> user = userMapper.getUserById(userId);
         if (!user.isPresent()) {
             throw CustomException.defined(CustomException.Define.NON_EXIST_USER);
         }
@@ -74,5 +90,28 @@ public class UserServiceImpl implements UserService {
             throw CustomException.defined(CustomException.Define.NON_EXIST_USER);
         }
         return balance.get();
+    }
+
+    @Override
+    public void setAvatar(int userId, MultipartFile image) throws CustomException, SQLException, ClassNotFoundException {
+        String realFileName = "avatar_" + userId + ".png";
+        if (realFileName.contains("..")) {
+            throw CustomException.defined(CustomException.Define.INVALID_FILE_NAME);
+        }
+        Path target = storage.resolve(realFileName);
+        try {
+            Files.copy(image.getInputStream(), target, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            throw CustomException.defined(CustomException.Define.FILE_CREATE_ERROR);
+        }
+        String url = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path(IMAGE_URI_PREFIX).path(realFileName).toUriString();
+        userMapper.setAvatar(userId, url);
+    }
+
+    @Override
+    public String getAvatar(int userId) throws SQLException, ClassNotFoundException, CustomException {
+        Optional<String> url = userMapper.getAvatar(userId);
+        return url.orElse("");
     }
 }
