@@ -7,6 +7,7 @@ import com.dbproject.electricbackend.schema.*;
 import com.dbproject.electricbackend.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -79,13 +80,13 @@ public class UserController {
 
     @ApiOperation("获取头像 URL")
     @GetMapping("avatar")
-    public String getAvatarUrl(@RequestParam("user") int userId) throws SQLException, ClassNotFoundException, CustomException {
+    public String getAvatarUrl(@ApiParam("用户 ID") @RequestParam("user") int userId) throws SQLException, ClassNotFoundException, CustomException {
         return userService.getAvatar(userId);
     }
 
     @ApiOperation("设置头像")
     @PostMapping("setAvatar/{userId:\\d+}")
-    public StatusMessage setAvatar(@PathVariable("userId") int userId, @RequestParam("file") MultipartFile image)
+    public StatusMessage setAvatar(@ApiParam("用户 ID") @PathVariable("userId") int userId, @RequestParam("file") MultipartFile image)
             throws SQLException, CustomException, ClassNotFoundException {
         userService.setAvatar(userId, image);
         return StatusMessage.successfulStatus();
