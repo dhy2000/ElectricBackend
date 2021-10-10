@@ -94,7 +94,7 @@ public class UserController {
         return StatusMessage.successfulStatus();
     }
 
-    @ApiOperation("修改个人信息")
+    @ApiOperation("修改个人信息, 请求体内容代表更新后的个人信息 (原始值需要先获取个人信息)")
     @PostMapping("updateInfo")
     @AuthRequired
     public StatusMessage updateInfo(@RequestHeader("Token") String token, @RequestBody UserProfileUpdate profile) throws CustomException, SQLException, ClassNotFoundException {

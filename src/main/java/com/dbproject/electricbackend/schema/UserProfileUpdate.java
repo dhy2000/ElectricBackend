@@ -13,7 +13,7 @@ import java.util.Date;
 public class UserProfileUpdate {
     @Getter
     @NonNull
-    @ApiModelProperty("用户编号(唯一且自动递增)")
+    @ApiModelProperty("用户编号 (必须是当前登录的用户)")
     private final Integer id;
 
     @Getter
