@@ -3,10 +3,7 @@ package com.dbproject.electricbackend.service.impl;
 import com.dbproject.electricbackend.config.FileConfiguration;
 import com.dbproject.electricbackend.exception.CustomException;
 import com.dbproject.electricbackend.mapper.UserMapper;
-import com.dbproject.electricbackend.schema.LoginRequest;
-import com.dbproject.electricbackend.schema.RegisterRequest;
-import com.dbproject.electricbackend.schema.UserProfile;
-import com.dbproject.electricbackend.schema.UserSummary;
+import com.dbproject.electricbackend.schema.*;
 import com.dbproject.electricbackend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -57,8 +54,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserProfile getUserById(int userId) throws ClassNotFoundException, SQLException, CustomException {
-        Optional<UserProfile> user = userMapper.getUserById(userId);
+    public UserProfile getUserProfileById(int userId) throws ClassNotFoundException, SQLException, CustomException {
+        Optional<UserProfile> user = userMapper.getUserProfileById(userId);
         if (!user.isPresent()) {
             throw CustomException.defined(CustomException.Define.NON_EXIST_USER);
         }
@@ -112,5 +109,10 @@ public class UserServiceImpl implements UserService {
     public String getAvatar(int userId) throws SQLException, ClassNotFoundException, CustomException {
         Optional<String> url = userMapper.getAvatar(userId);
         return url.orElse("");
+    }
+
+    @Override
+    public void updateProfile(UserProfileUpdate profile) throws SQLException, ClassNotFoundException {
+        userMapper.updateProfile(profile);
     }
 }

@@ -15,7 +15,7 @@ public interface UserService {
 
     int loginAndGetId(LoginRequest login) throws ClassNotFoundException, SQLException, CustomException;
 
-    UserProfile getUserById(int userId) throws ClassNotFoundException, SQLException, CustomException;
+    UserProfile getUserProfileById(int userId) throws ClassNotFoundException, SQLException, CustomException;
 
     UserSummary getUserSummaryById(int userId) throws ClassNotFoundException, SQLException, CustomException;
 
@@ -26,4 +26,6 @@ public interface UserService {
     void setAvatar(int userId, MultipartFile image) throws CustomException, SQLException, ClassNotFoundException;
 
     String getAvatar(int userId) throws SQLException, ClassNotFoundException, CustomException;
+
+    void updateProfile(UserProfileUpdate profile) throws SQLException, ClassNotFoundException;
 }

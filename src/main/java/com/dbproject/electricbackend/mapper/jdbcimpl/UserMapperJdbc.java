@@ -4,6 +4,7 @@ import com.dbproject.electricbackend.exception.CustomException;
 import com.dbproject.electricbackend.mapper.UserMapper;
 import com.dbproject.electricbackend.schema.UserProfile;
 import com.dbproject.electricbackend.schema.RegisterRequest;
+import com.dbproject.electricbackend.schema.UserProfileUpdate;
 import com.dbproject.electricbackend.schema.UserSummary;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
@@ -99,7 +100,7 @@ public class UserMapperJdbc implements UserMapper {
     }
 
     @Override
-    public Optional<UserProfile> getUserById(int userId) throws ClassNotFoundException, SQLException {
+    public Optional<UserProfile> getUserProfileById(int userId) throws ClassNotFoundException, SQLException {
         Connection conn = null;
         PreparedStatement query = null;
         ResultSet result = null;
@@ -224,6 +225,27 @@ public class UserMapperJdbc implements UserMapper {
             }
         } finally {
             close(conn, query, result);
+        }
+    }
+
+    @Override
+    public void updateProfile(UserProfileUpdate profile) throws ClassNotFoundException, SQLException {
+        Connection conn = null;
+        PreparedStatement query = null;
+        try {
+            Class.forName(dbDriverName);
+            conn = DriverManager.getConnection(dbAddress, dbUserName, dbPassword);
+            String sql = "UPDATE `user` SET `nickname` = ?, `signature` = ?, `birthday` = ?, `email` = ?, `phone` = ? WHERE `id` = ?";
+            query = conn.prepareStatement(sql);
+            query.setString(1, profile.getNickname());
+            query.setString(2, profile.getSignature());
+            query.setDate(3, new Date(profile.getBirthday().getTime()));
+            query.setString(4, profile.getEmail());
+            query.setString(5, profile.getPhone());
+            query.setInt(6, profile.getId());
+            query.executeUpdate();
+        } finally {
+            close(conn, query, null);
         }
     }
 

@@ -1,0 +1,41 @@
+package com.dbproject.electricbackend.schema;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NonNull;
+
+import java.util.Date;
+
+@Data
+@ApiModel("用户信息修改请求体")
+public class UserProfileUpdate {
+    @Getter
+    @NonNull
+    @ApiModelProperty("用户编号(唯一且自动递增)")
+    private final Integer id;
+
+    @Getter
+    @NonNull
+    @ApiModelProperty("用户昵称")
+    private final String nickname;
+
+    @Getter
+    @NonNull
+    @ApiModelProperty("个性签名")
+    private final String signature;
+
+    @Getter
+    @NonNull
+    @ApiModelProperty("出生日期, 建议格式: YYYY-MM-DD，示例: 1970-01-01")
+    private final Date birthday;
+
+    @Getter
+    @ApiModelProperty("电子邮箱")
+    private final String email;
+
+    @Getter
+    @ApiModelProperty("电话")
+    private final String phone;
+}

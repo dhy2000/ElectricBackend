@@ -3,6 +3,7 @@ package com.dbproject.electricbackend.mapper;
 import com.dbproject.electricbackend.exception.CustomException;
 import com.dbproject.electricbackend.schema.UserProfile;
 import com.dbproject.electricbackend.schema.RegisterRequest;
+import com.dbproject.electricbackend.schema.UserProfileUpdate;
 import com.dbproject.electricbackend.schema.UserSummary;
 
 import java.sql.SQLException;
@@ -25,7 +26,7 @@ public interface UserMapper {
 
     Optional<UserSummary> getUserSummaryById(int id) throws ClassNotFoundException, SQLException;
 
-    Optional<UserProfile> getUserById(int id) throws ClassNotFoundException, SQLException;
+    Optional<UserProfile> getUserProfileById(int id) throws ClassNotFoundException, SQLException;
 
     Optional<UserSummary> getUserSummaryWithNameAndPassword(String username, String password) throws ClassNotFoundException, SQLException;
 
@@ -36,4 +37,6 @@ public interface UserMapper {
     void setAvatar(int userId, String url) throws SQLException, ClassNotFoundException;
 
     Optional<String> getAvatar(int userId) throws ClassNotFoundException, SQLException, CustomException;
+
+    void updateProfile(UserProfileUpdate profile) throws ClassNotFoundException, SQLException;
 }
