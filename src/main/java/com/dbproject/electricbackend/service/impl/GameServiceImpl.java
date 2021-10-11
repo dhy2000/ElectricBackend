@@ -4,6 +4,7 @@ import com.dbproject.electricbackend.exception.CustomException;
 import com.dbproject.electricbackend.mapper.GameMapper;
 import com.dbproject.electricbackend.schema.GameAchievement;
 import com.dbproject.electricbackend.schema.GameInfo;
+import com.dbproject.electricbackend.schema.GameInfoAdd;
 import com.dbproject.electricbackend.schema.GameSummary;
 import com.dbproject.electricbackend.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,5 +51,10 @@ public class GameServiceImpl implements GameService {
     @Override
     public void purchaseGame(int userId, int gameId) {
 
+    }
+
+    @Override
+    public void addGame(GameInfoAdd game) throws SQLException, ClassNotFoundException {
+        gameMapper.addGame(game);
     }
 }

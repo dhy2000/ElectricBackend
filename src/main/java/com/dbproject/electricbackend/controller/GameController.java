@@ -1,18 +1,13 @@
 package com.dbproject.electricbackend.controller;
 
 import com.dbproject.electricbackend.exception.CustomException;
-import com.dbproject.electricbackend.schema.GameAchievement;
-import com.dbproject.electricbackend.schema.GameInfo;
-import com.dbproject.electricbackend.schema.GameSummary;
+import com.dbproject.electricbackend.schema.*;
 import com.dbproject.electricbackend.service.GameService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
 import java.util.Collection;
@@ -48,5 +43,12 @@ public class GameController {
             @ApiParam("游戏编号") @RequestParam("game") int gameId)
             throws SQLException, ClassNotFoundException {
         return gameService.listAchievementsOfGame(gameId);
+    }
+
+    @ApiOperation("添加游戏")
+    @PostMapping("addGame")
+    public StatusMessage addGame(@RequestBody GameInfoAdd game) throws SQLException, ClassNotFoundException {
+        gameService.addGame(game);
+        return StatusMessage.successfulStatus();
     }
 }

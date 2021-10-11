@@ -3,6 +3,7 @@ package com.dbproject.electricbackend.mapper.jdbcimpl;
 import com.dbproject.electricbackend.mapper.GameMapper;
 import com.dbproject.electricbackend.schema.GameAchievement;
 import com.dbproject.electricbackend.schema.GameInfo;
+import com.dbproject.electricbackend.schema.GameInfoAdd;
 import com.dbproject.electricbackend.schema.GameSummary;
 import com.google.gson.Gson;
 import lombok.extern.log4j.Log4j2;
@@ -52,7 +53,7 @@ public class GameMapperJdbc implements GameMapper {
             conn = DriverManager.getConnection(dbAddress, dbUserName, dbPassword);
             String sql = "SELECT `id`, `name`, `price`, `is_multi_player` FROM `game`";
             query = conn.prepareStatement(sql);
-            log.info(query);
+//            log.info(query);
             result = query.executeQuery();
             while (result.next()) {
                 Integer id = result.getInt("id");
@@ -79,7 +80,7 @@ public class GameMapperJdbc implements GameMapper {
                     "`support_system`, `is_multi_player`, `min_age` FROM `game` WHERE `id` = ?";
             query = conn.prepareStatement(sql);
             query.setInt(1, gameId);
-            log.info(query);
+//            log.info(query);
             result = query.executeQuery();
             if (result.next()) {
                 Integer id = result.getInt("id");
@@ -107,6 +108,11 @@ public class GameMapperJdbc implements GameMapper {
         return Arrays.asList(systems);
     }
 
+    private String packSupportDevices(Collection<GameInfo.SupportSystem> devices) {
+        Gson gson = new Gson();
+        return gson.toJson(devices);
+    }
+
     @Override
     public Collection<GameAchievement> listAchievementsOfGame(int gameId)
             throws ClassNotFoundException, SQLException {
@@ -120,7 +126,7 @@ public class GameMapperJdbc implements GameMapper {
             String sql = "SELECT `name`, `describe` FROM `achievement` WHERE `game_id` = ?";
             query = conn.prepareStatement(sql);
             query.setInt(1, gameId);
-            log.info(query);
+//            log.info(query);
             result = query.executeQuery();
             while (result.next()) {
                 String name = result.getString("name");
@@ -130,6 +136,29 @@ public class GameMapperJdbc implements GameMapper {
             return achievementList;
         } finally {
             close(conn, query, result);
+        }
+    }
+
+    @Override
+    public void addGame(GameInfoAdd game) throws ClassNotFoundException, SQLException {
+        Connection conn = null;
+        PreparedStatement query = null;
+        try {
+            Class.forName(dbDriverName);
+            conn = DriverManager.getConnection(dbAddress, dbUserName, dbPassword);
+            String sql = "INSERT INTO `game` (`name`, `price`, `release_date`, `describe`, `support_system`, `is_multi_player`, `min_age`) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            query = conn.prepareStatement(sql);
+            query.setString(1, game.getName());
+            query.setInt(2, game.getPrice());
+            query.setDate(3, new Date(game.getReleaseDate().getTime()));
+            query.setString(4, game.getDescribe());
+            query.setString(5, packSupportDevices(game.getSupportSystems()));
+            query.setBoolean(6, game.isMultiPlayer());
+            query.setInt(7, game.getMinAge());
+//            log.info(query);
+            query.executeUpdate();
+        } finally {
+            close(conn, query, null);
         }
     }
 }

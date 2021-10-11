@@ -3,6 +3,7 @@ package com.dbproject.electricbackend.service;
 import com.dbproject.electricbackend.exception.CustomException;
 import com.dbproject.electricbackend.schema.GameAchievement;
 import com.dbproject.electricbackend.schema.GameInfo;
+import com.dbproject.electricbackend.schema.GameInfoAdd;
 import com.dbproject.electricbackend.schema.GameSummary;
 
 import java.sql.SQLException;
@@ -21,5 +22,5 @@ public interface GameService {
 
     void purchaseGame(int userId, int gameId);
 
-
+    void addGame(GameInfoAdd game) throws SQLException, ClassNotFoundException;
 }
