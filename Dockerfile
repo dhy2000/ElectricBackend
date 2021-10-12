@@ -7,7 +7,7 @@ WORKDIR /app
 COPY pom.xml .
 
 # Download dependencies and plugins
-RUN mvn dependency:resolve && mvn dependency:resolve-plugins && mvn dependency:copy-dependencies && mvn dependency:copy
+RUN mvn dependency:resolve && mvn dependency:resolve-plugins && mvn dependency:copy-dependencies
 
 # Copy project source
 COPY . .
