@@ -11,7 +11,6 @@ import lombok.NonNull;
 public class FileUploadResponse {
 
     @Getter
-    @NonNull
     @ApiModelProperty("操作状态码, 0 为成功, 非 0 为失败")
     private final int code;
 

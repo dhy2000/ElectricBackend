@@ -115,4 +115,14 @@ public class UserServiceImpl implements UserService {
     public void updateProfile(UserProfileUpdate profile) throws SQLException, ClassNotFoundException {
         userMapper.updateProfile(profile);
     }
+
+    @Override
+    public void setPassword(int userId, PasswordUpdate password) throws SQLException, ClassNotFoundException, CustomException {
+        boolean verify = userMapper.hasUserWithPassword(userId, password.getOldPassword());
+        if (!verify) {
+            throw CustomException.defined(CustomException.Define.WRONG_OLD_PASSWORD);
+        } else {
+            userMapper.updatePassword(userId, password.getNewPassword());
+        }
+    }
 }

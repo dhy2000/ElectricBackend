@@ -249,6 +249,42 @@ public class UserMapperJdbc implements UserMapper {
         }
     }
 
+    @Override
+    public boolean hasUserWithPassword(int userId, String password) throws ClassNotFoundException, SQLException {
+        Connection conn = null;
+        PreparedStatement query = null;
+        ResultSet result = null;
+        try {
+            Class.forName(dbDriverName);
+            conn = DriverManager.getConnection(dbAddress, dbUserName, dbPassword);
+            String sql = "SELECT `id` FROM `user` WHERE `id` = ? AND `password` = ?";
+            query = conn.prepareStatement(sql);
+            query.setInt(1, userId);
+            query.setString(2, password);
+            result = query.executeQuery();
+            return result.next();
+        } finally {
+            close(conn, query, result);
+        }
+    }
+
+    @Override
+    public void updatePassword(int userId, String password) throws ClassNotFoundException, SQLException {
+        Connection conn = null;
+        PreparedStatement query = null;
+        try {
+            Class.forName(dbDriverName);
+            conn = DriverManager.getConnection(dbAddress, dbUserName, dbPassword);
+            String sql = "UPDATE `user` SET `password` = ? WHERE `id` = ?";
+            query = conn.prepareStatement(sql);
+            query.setString(1, password);
+            query.setInt(2, userId);
+            query.executeUpdate();
+        } finally {
+            close(conn, query, null);
+        }
+    }
+
     private Optional<UserSummary> getSingleUserSummaryFromResult(ResultSet result) throws SQLException {
         if (result.next()) {
             Integer id = result.getInt("id");

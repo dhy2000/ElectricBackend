@@ -39,4 +39,8 @@ public interface UserMapper {
     Optional<String> getAvatar(int userId) throws ClassNotFoundException, SQLException, CustomException;
 
     void updateProfile(UserProfileUpdate profile) throws ClassNotFoundException, SQLException;
+
+    boolean hasUserWithPassword(int userId, String password) throws ClassNotFoundException, SQLException;
+
+    void updatePassword(int userId, String password) throws ClassNotFoundException, SQLException;
 }

@@ -28,4 +28,6 @@ public interface UserService {
     String getAvatar(int userId) throws SQLException, ClassNotFoundException, CustomException;
 
     void updateProfile(UserProfileUpdate profile) throws SQLException, ClassNotFoundException;
+
+    void setPassword(int userId, PasswordUpdate password) throws SQLException, ClassNotFoundException, CustomException;
 }

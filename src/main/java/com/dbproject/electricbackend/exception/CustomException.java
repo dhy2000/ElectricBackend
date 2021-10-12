@@ -35,6 +35,7 @@ public class CustomException extends Exception {
         INVALID_SESSION(1003, "会话无效, 请重新登录"),
         NON_EXIST_USER(1004, "该用户不存在"),
         INVALID_TOKEN(1005, "Token 无效"),
+        WRONG_OLD_PASSWORD(1006, "旧密码错误"),
 
         NON_EXIST_GAME(1101, "当前游戏不存在"),
         NOT_ENOUGH_BALANCE(1102, "玩家余额不足"),

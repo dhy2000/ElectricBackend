@@ -30,7 +30,8 @@ public class UserController {
 
     @ApiOperation("用户注册")
     @PostMapping("register")
-    public StatusMessage userRegister(@RequestBody RegisterRequest register) throws SQLException, ClassNotFoundException {
+    public StatusMessage userRegister(@RequestBody RegisterRequest register)
+            throws SQLException, ClassNotFoundException {
         userService.addUser(register);
         return StatusMessage.successfulStatus();
     }
@@ -82,7 +83,8 @@ public class UserController {
     @ApiOperation("获取头像 URL")
     @GetMapping("avatar")
     @ApiResponse(code = 200, message = "图片的 URL 地址")
-    public String getAvatarUrl(@ApiParam("用户 ID") @RequestParam("user") int userId) throws SQLException, ClassNotFoundException, CustomException {
+    public String getAvatarUrl(@ApiParam("用户 ID") @RequestParam("user") int userId)
+            throws SQLException, ClassNotFoundException, CustomException {
         return userService.getAvatar(userId);
     }
 
@@ -99,12 +101,24 @@ public class UserController {
     @ApiOperation("修改个人信息, 请求体内容代表更新后的个人信息 (原始值需要先获取个人信息)")
     @PostMapping("updateInfo")
     @AuthRequired
-    public StatusMessage updateInfo(@RequestHeader("Token") String token, @RequestBody UserProfileUpdate profile) throws CustomException, SQLException, ClassNotFoundException {
+    public StatusMessage updateInfo(@RequestHeader("Token") String token, @RequestBody UserProfileUpdate profile)
+            throws CustomException, SQLException, ClassNotFoundException {
         int userId = TokenUtil.verifyTokenAndGetUserId(token);
         if (profile.getId() != userId) {
             throw CustomException.defined(CustomException.Define.INVALID_SESSION);
         }
         userService.updateProfile(profile);
+        return StatusMessage.successfulStatus();
+    }
+
+    @ApiOperation("修改密码")
+    @PostMapping("setPassword")
+    @AuthRequired
+    public StatusMessage setPassword(@RequestHeader("Token") String token,
+                                     @RequestBody PasswordUpdate password)
+            throws CustomException, SQLException, ClassNotFoundException {
+        int userId = TokenUtil.verifyTokenAndGetUserId(token);
+        userService.setPassword(userId, password);
         return StatusMessage.successfulStatus();
     }
 }
