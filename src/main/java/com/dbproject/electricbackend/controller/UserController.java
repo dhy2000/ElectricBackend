@@ -86,10 +86,12 @@ public class UserController {
         return userService.getAvatar(userId);
     }
 
-    @ApiOperation("设置头像")
-    @PostMapping("setAvatar/{userId:\\d+}")
-    public StatusMessage setAvatar(@ApiParam("用户 ID") @PathVariable("userId") int userId, @RequestParam("file") MultipartFile image)
+    @ApiOperation("设置头像, 请求体格式为 multipart/form-data，参数 KEY 为 \"file\", VALUE 为图片文件")
+    @PostMapping("setAvatar")
+    @AuthRequired
+    public StatusMessage setAvatar(@RequestHeader("Token") String token, @RequestParam("file") MultipartFile image)
             throws SQLException, CustomException, ClassNotFoundException {
+        int userId = TokenUtil.verifyTokenAndGetUserId(token);
         userService.setAvatar(userId, image);
         return StatusMessage.successfulStatus();
     }
