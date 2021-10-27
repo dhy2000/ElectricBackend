@@ -11,6 +11,10 @@ import lombok.Getter;
 @AllArgsConstructor
 public class GameAchievement {
     @Getter
+    @ApiModelProperty("成就ID")
+    private final Integer id;
+
+    @Getter
     @ApiModelProperty("成就名称")
     private final String name;
 

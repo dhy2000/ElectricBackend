@@ -2,6 +2,7 @@ package com.dbproject.electricbackend.service.impl;
 
 import com.dbproject.electricbackend.config.FileConfiguration;
 import com.dbproject.electricbackend.exception.CustomException;
+import com.dbproject.electricbackend.mapper.UserGameMapper;
 import com.dbproject.electricbackend.mapper.UserMapper;
 import com.dbproject.electricbackend.schema.*;
 import com.dbproject.electricbackend.service.UserService;
@@ -26,10 +27,12 @@ public class UserServiceImpl implements UserService {
 
     private final Path storage;
     private final UserMapper userMapper;
+    private final UserGameMapper userGameMapper;
 
     @Autowired
-    public UserServiceImpl(UserMapper userMapper, FileConfiguration config) {
+    public UserServiceImpl(UserMapper userMapper, UserGameMapper userGameMapper, FileConfiguration config) {
         this.userMapper = userMapper;
+        this.userGameMapper = userGameMapper;
         this.storage = Paths.get(config.getFileDir()).toAbsolutePath().normalize();
     }
 
@@ -124,5 +127,10 @@ public class UserServiceImpl implements UserService {
         } else {
             userMapper.updatePassword(userId, password.getNewPassword());
         }
+    }
+
+    @Override
+    public List<GameOfUser> getGamesOfUser(int userId) {
+        return userGameMapper.gameOfUser(userId);
     }
 }

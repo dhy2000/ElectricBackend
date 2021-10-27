@@ -121,4 +121,10 @@ public class UserController {
         userService.setPassword(userId, password);
         return StatusMessage.successfulStatus();
     }
+
+    @ApiOperation("查询个人所拥有的游戏(以及成就)")
+    @GetMapping("ownedGames")
+    public List<GameOfUser> ownedGames(@ApiParam("用户 ID") @RequestParam("user") int userId) {
+        return userService.getGamesOfUser(userId);
+    }
 }

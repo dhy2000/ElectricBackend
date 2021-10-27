@@ -30,4 +30,6 @@ public interface UserService {
     void updateProfile(UserProfileUpdate profile) throws SQLException, ClassNotFoundException;
 
     void setPassword(int userId, PasswordUpdate password) throws SQLException, ClassNotFoundException, CustomException;
+
+    List<GameOfUser> getGamesOfUser(int userId);
 }

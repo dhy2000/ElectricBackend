@@ -123,15 +123,16 @@ public class GameMapperJdbc implements GameMapper {
         try {
             Class.forName(dbDriverName);
             conn = DriverManager.getConnection(dbAddress, dbUserName, dbPassword);
-            String sql = "SELECT `name`, `describe` FROM `achievement` WHERE `game_id` = ?";
+            String sql = "SELECT `achieve_id`,`name`, `describe` FROM `achievement` WHERE `game_id` = ?";
             query = conn.prepareStatement(sql);
             query.setInt(1, gameId);
 //            log.info(query);
             result = query.executeQuery();
             while (result.next()) {
+                Integer id = result.getInt("id");
                 String name = result.getString("name");
                 String describe = result.getString("describe");
-                achievementList.add(new GameAchievement(name, describe));
+                achievementList.add(new GameAchievement(id, name, describe));
             }
             return achievementList;
         } finally {
