@@ -1,5 +1,7 @@
 package com.dbproject.electricbackend.controller;
 
+import com.dbproject.electricbackend.auth.AuthRequired;
+import com.dbproject.electricbackend.auth.TokenUtil;
 import com.dbproject.electricbackend.exception.CustomException;
 import com.dbproject.electricbackend.schema.*;
 import com.dbproject.electricbackend.service.GameService;
@@ -51,4 +53,47 @@ public class GameController {
         gameService.addGame(game);
         return StatusMessage.successfulStatus();
     }
+
+    @ApiOperation("购买游戏")
+    @PostMapping("purchaseGame")
+    @AuthRequired
+    public StatusMessage purchaseGame(
+            @RequestHeader("Token") String token,
+            @RequestBody GamePurchaseRequest request) throws CustomException {
+        int userId = TokenUtil.verifyTokenAndGetUserId(token);
+        if (!request.getBuyerId().equals(userId)) {
+            throw CustomException.defined(CustomException.Define.INVALID_SESSION);
+        }
+        gameService.purchaseGame(request.getBuyerId(), request.getGameId(), request.getReceiverId());
+        return StatusMessage.successfulStatus();
+    }
+
+    @ApiOperation("创建订单(不立即支付)")
+    @PostMapping("createOrder")
+    @AuthRequired
+    public StatusMessage createOrder(
+            @RequestHeader("Token") String token,
+            @RequestBody GamePurchaseRequest request) throws CustomException {
+        int userId = TokenUtil.verifyTokenAndGetUserId(token);
+        if (!request.getBuyerId().equals(userId)) {
+            throw CustomException.defined(CustomException.Define.INVALID_SESSION);
+        }
+        gameService.addGameToCart(request.getBuyerId(), request.getGameId(), request.getReceiverId());
+        return StatusMessage.successfulStatus();
+    }
+
+    @ApiOperation("支付已有的订单")
+    @PostMapping("payOrder")
+    @AuthRequired
+    public StatusMessage payOrder(
+            @RequestHeader("Token") String token,
+            @RequestBody PayOrderRequest request) throws CustomException {
+        int userId = TokenUtil.verifyTokenAndGetUserId(token);
+        if (!gameService.hasOrderOfBuyer(request.getOrderId(), userId)) {
+            throw CustomException.defined(CustomException.Define.INVALID_SESSION);
+        }
+        gameService.payOrder(request.getOrderId());
+        return StatusMessage.successfulStatus();
+    }
+
 }

@@ -34,6 +34,8 @@ public interface UserMapper {
 
     Optional<Integer> getBalance(int userId) throws ClassNotFoundException, SQLException, CustomException;
 
+    void consume(int userId, int amount) throws ClassNotFoundException, SQLException;
+
     void setAvatar(int userId, String url) throws SQLException, ClassNotFoundException;
 
     Optional<String> getAvatar(int userId) throws ClassNotFoundException, SQLException, CustomException;

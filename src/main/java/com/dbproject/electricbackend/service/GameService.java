@@ -18,9 +18,13 @@ public interface GameService {
 
     Collection<GameAchievement> listAchievementsOfGame(int gameId) throws SQLException, ClassNotFoundException;
 
-    void addGameToCart(int userId, int gameId);
+    void addGameToCart(int buyerId, int gameId, int receiverId);
 
-    void purchaseGame(int userId, int gameId);
+    void purchaseGame(int buyerId, int gameId, int receiverId) throws CustomException;
+
+    boolean hasOrderOfBuyer(int orderId, int buyerId);
+
+    void payOrder(int orderId);
 
     void addGame(GameInfoAdd game) throws SQLException, ClassNotFoundException;
 }

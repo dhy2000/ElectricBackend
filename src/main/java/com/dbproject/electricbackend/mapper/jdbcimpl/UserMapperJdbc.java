@@ -189,6 +189,24 @@ public class UserMapperJdbc implements UserMapper {
     }
 
     @Override
+    public void consume(int userId, int amount) throws ClassNotFoundException, SQLException {
+        Connection conn = null;
+        PreparedStatement query = null;
+        try {
+            Class.forName(dbDriverName);
+            conn = DriverManager.getConnection(dbAddress, dbUserName, dbPassword);
+            String sql = "UPDATE `user` SET `balance` = `balance` - ? WHERE `id` = ? AND `balance` >= ?";
+            query = conn.prepareStatement(sql);
+            query.setInt(1, amount);
+            query.setInt(2, userId);
+            query.setInt(3, amount);
+            query.executeUpdate();
+        } finally {
+            close(conn, query, null);
+        }
+    }
+
+    @Override
     public void setAvatar(int userId, String url) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement query = null;
