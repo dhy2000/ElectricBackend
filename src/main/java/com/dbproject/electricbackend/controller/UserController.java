@@ -127,4 +127,12 @@ public class UserController {
     public List<GameOfUser> ownedGames(@ApiParam("用户 ID") @RequestParam("user") int userId) {
         return userService.getGamesOfUser(userId);
     }
+
+    @ApiOperation("查看个人的全部订单")
+    @GetMapping("listOrders")
+    @AuthRequired
+    public List<PurchaseGameOrder> listOrders(@RequestHeader("Token") String token) throws CustomException {
+        int userId = TokenUtil.verifyTokenAndGetUserId(token);
+        return userService.listOrders(userId);
+    }
 }

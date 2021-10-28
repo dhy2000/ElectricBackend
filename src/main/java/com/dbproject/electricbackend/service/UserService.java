@@ -31,5 +31,7 @@ public interface UserService {
 
     void setPassword(int userId, PasswordUpdate password) throws SQLException, ClassNotFoundException, CustomException;
 
+    List<PurchaseGameOrder> listOrders(int userId);
+
     List<GameOfUser> getGamesOfUser(int userId);
 }

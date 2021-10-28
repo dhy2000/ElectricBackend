@@ -3,7 +3,6 @@ package com.dbproject.electricbackend.service.impl;
 import com.dbproject.electricbackend.exception.CustomException;
 import com.dbproject.electricbackend.mapper.GameMapper;
 import com.dbproject.electricbackend.mapper.UserGameMapper;
-import com.dbproject.electricbackend.mapper.UserMapper;
 import com.dbproject.electricbackend.schema.*;
 import com.dbproject.electricbackend.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.sql.SQLException;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.Optional;
 

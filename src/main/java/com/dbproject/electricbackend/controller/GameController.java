@@ -54,7 +54,7 @@ public class GameController {
         return StatusMessage.successfulStatus();
     }
 
-    @ApiOperation("购买游戏")
+    @ApiOperation("购买游戏或创建订单：如 payNow 为 true 则立即付款(购买者需有足够余额)，否则仅创建未付款的订单")
     @PostMapping("purchaseGame")
     @AuthRequired
     public StatusMessage purchaseGame(
@@ -64,21 +64,11 @@ public class GameController {
         if (!request.getBuyerId().equals(userId)) {
             throw CustomException.defined(CustomException.Define.INVALID_SESSION);
         }
-        gameService.purchaseGame(request.getBuyerId(), request.getGameId(), request.getReceiverId());
-        return StatusMessage.successfulStatus();
-    }
-
-    @ApiOperation("创建订单(不立即支付)")
-    @PostMapping("createOrder")
-    @AuthRequired
-    public StatusMessage createOrder(
-            @RequestHeader("Token") String token,
-            @RequestBody GamePurchaseRequest request) throws CustomException {
-        int userId = TokenUtil.verifyTokenAndGetUserId(token);
-        if (!request.getBuyerId().equals(userId)) {
-            throw CustomException.defined(CustomException.Define.INVALID_SESSION);
+        if (request.isPayNow()) {
+            gameService.purchaseGame(request.getBuyerId(), request.getGameId(), request.getReceiverId());
+        } else {
+            gameService.addGameToCart(request.getBuyerId(), request.getGameId(), request.getReceiverId());
         }
-        gameService.addGameToCart(request.getBuyerId(), request.getGameId(), request.getReceiverId());
         return StatusMessage.successfulStatus();
     }
 
