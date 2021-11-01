@@ -64,7 +64,7 @@ public interface UserGameMapper {
     @Insert("INSERT INTO `order` (buyer_id, game_id, receiver_id, create_date, is_paid, pay_date) VALUES (#{buyer_id}, #{game_id}, #{receiver_id}, #{create_date}, 1, #{pay_date})")
     void createPaidOrder(@Param("buyer_id") int buyerId, @Param("receiver_id") int receiverId, @Param("game_id") int gameId, @Param("create_date") Date createDate, @Param("pay_date") Date payDate);
 
-    @Update("UPDATE `order` SET is_paid = 1, pay_date = #{pay_date} WHERE id = #{order_id}")
+    @Update("UPDATE `order` SET is_paid = 1, pay_date = #{pay_date} WHERE id = #{order_id} AND is_paid = 0")
     void payOrder(@Param("order_id") int orderId, @Param("pay_date") Date payDate);
 
     @Update("UPDATE user SET balance = balance - (SELECT price FROM game WHERE game.id = #{game_id}) WHERE id = #{buyer_id} AND balance >= (SELECT price FROM game WHERE game.id = #{game_id})")

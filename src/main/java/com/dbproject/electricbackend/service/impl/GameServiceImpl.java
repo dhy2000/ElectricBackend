@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -74,10 +75,17 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public void payOrder(int orderId) {
+    public void payOrder(int orderId) throws CustomException {
+        PurchaseGameOrder order = userGameMapper.getOrder(orderId);
+        if (Objects.isNull(order)) {
+            throw CustomException.defined(CustomException.Define.INVALID_ORDER);
+        }
+        boolean canPurchase = userGameMapper.hasEnoughMoneyPurchaseGame(order.getBuyerId(), order.getGameId());
+        if (!canPurchase) {
+            throw CustomException.defined(CustomException.Define.NOT_ENOUGH_BALANCE);
+        }
         Date now = new Date(new java.util.Date().getTime());
         userGameMapper.payOrder(orderId, now);
-        PurchaseGameOrder order = userGameMapper.getOrder(orderId);
         userGameMapper.consumeGame(order.getBuyerId(), order.getGameId());
     }
 

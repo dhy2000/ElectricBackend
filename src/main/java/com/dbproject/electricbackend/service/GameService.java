@@ -23,7 +23,7 @@ public interface GameService {
 
     boolean hasOrderOfBuyer(int orderId, int buyerId);
 
-    void payOrder(int orderId);
+    void payOrder(int orderId) throws CustomException;
 
     void addGame(GameInfoAdd game) throws SQLException, ClassNotFoundException;
 }
