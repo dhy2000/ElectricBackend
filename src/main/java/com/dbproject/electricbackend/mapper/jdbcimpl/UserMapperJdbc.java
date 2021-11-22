@@ -59,6 +59,27 @@ public class UserMapperJdbc implements UserMapper {
     }
 
     @Override
+    public Optional<Integer> getIdOfUsername(String username) throws ClassNotFoundException, SQLException {
+        Connection conn = null;
+        PreparedStatement query = null;
+        ResultSet result = null;
+        try {
+            Class.forName(dbDriverName);
+            conn = DriverManager.getConnection(dbAddress, dbUserName, dbPassword);
+            String sql = "SELECT `id` FROM `user` WHERE `username` = ?";
+            query = conn.prepareStatement(sql);
+            query.setString(1, username);
+            result = query.executeQuery();
+            if (result.next()) {
+                return Optional.of(result.getInt("id"));
+            }
+            return Optional.empty();
+        } finally {
+            close(conn, query, result);
+        }
+    }
+
+    @Override
     public void addUser(RegisterRequest register) throws ClassNotFoundException, SQLException {
         // insert into user(username, password, nickname) values(#{username}, #{password}, #{nickname})
         Connection conn = null;

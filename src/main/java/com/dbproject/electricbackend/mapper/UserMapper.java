@@ -21,6 +21,8 @@ public interface UserMapper {
 //    })
     List<UserSummary> getUserList() throws ClassNotFoundException, SQLException;
 
+    Optional<Integer> getIdOfUsername(String username) throws ClassNotFoundException, SQLException;
+
 //    @Insert("insert into user(username, password, nickname) values(#{username}, #{password}, #{nickname})")
     void addUser(RegisterRequest register) throws ClassNotFoundException, SQLException;
 
