@@ -45,9 +45,9 @@ public class CustomException extends Exception {
         ALREADY_ONLINE(1111, "玩家已经在线，无法上线"),
         ALREADY_OFFLINE(1112, "玩家已经下线，无法上线"),
         ILLEGAL_BEHAVIOR(1113, "不合法的行为"),
-
         ALREADY_FRIEND(1114, "你们已经是好友，不可重复添加好友"),
         NOT_FRIEND(1115, "你们不是好友"),
+        ACQUIRED_ACHIEVEMENT(1116, "成就已获得，不可重复获得"),
 
         FILE_CREATE_ERROR(2101, "无法创建文件"),
         FILE_ALREADY_EXIST(2102, "同名文件已存在"),

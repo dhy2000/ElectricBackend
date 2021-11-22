@@ -1,9 +1,6 @@
 package com.dbproject.electricbackend.mapper;
 
-import com.dbproject.electricbackend.schema.GameAchievement;
-import com.dbproject.electricbackend.schema.GameOfUser;
-import com.dbproject.electricbackend.schema.GamePlayRecord;
-import com.dbproject.electricbackend.schema.PurchaseGameOrder;
+import com.dbproject.electricbackend.schema.*;
 import org.apache.ibatis.annotations.*;
 
 import java.sql.Date;
@@ -24,13 +21,22 @@ public interface UserGameMapper {
     })
     List<GameOfUser> gameOfUser(@Param("userId") int userId);
 
-    @Select("SELECT achievement.`achieve_id`, achievement.`name`, achievement.`describe` FROM achievement INNER JOIN game ON achievement.game_id = game.id INNER JOIN achieve_acquirement ON achievement.achieve_id = achieve_acquirement.achieve_id WHERE achievement.game_id = #{gameId} AND achieve_acquirement.user_id = #{userId}")
+    @Select("SELECT game_id, game.name game_name, achievement.`achieve_id`, achievement.`name` achieve_name, achievement.`describe`, acquire_time FROM achievement INNER JOIN game ON achievement.game_id = game.id INNER JOIN achieve_acquirement ON achievement.achieve_id = achieve_acquirement.achieve_id WHERE achievement.game_id = #{gameId} AND achieve_acquirement.user_id = #{userId}")
     @Results({
-            @Result(property = "id", column = "achieve_id"),
-            @Result(property = "name", column = "name"),
-            @Result(property = "describe", column = "describe")
+            @Result(property = "gameId", column = "game_id"),
+            @Result(property = "gameName", column = "game_name"),
+            @Result(property = "achievementId", column = "achieve_id"),
+            @Result(property = "achievementName", column = "achieve_name"),
+            @Result(property = "describe", column = "describe"),
+            @Result(property = "acquireTime", column = "acquire_time")
     })
-    List<GameAchievement> achievementOfUserAndGame(@Param("gameId") int gameId, @Param("userId") int userId);
+    List<GameAchievementAcquirement> achievementOfUserAndGame(@Param("gameId") int gameId, @Param("userId") int userId);
+
+    @Select("SELECT EXISTS(SELECT * FROM achieve_acquirement WHERE user_id = #{user_id} AND achieve_id = #{achieve_id})")
+    boolean hasAchievement(@Param("user_id") int userId, @Param("achieve_id") int achievementId);
+
+    @Insert("INSERT INTO achieve_acquirement (user_id, achieve_id, acquire_time) VALUES (#{user_id}, #{achieve_id}, #{time})")
+    void acquireAchievement(@Param("user_id") int userId, @Param("achieve_id") int achievementId, @Param("time") Date time);
 
     @Select("SELECT * FROM `order` WHERE buyer_id = #{buyer_id}")
     @Results({

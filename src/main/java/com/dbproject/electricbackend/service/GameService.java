@@ -32,4 +32,8 @@ public interface GameService {
     List<GamePlayRecord> recordOnGame(int userId, int gameId);
 
     int totalGameTime(int userId);
+
+    List<GameAchievementAcquirement> achievementOfUserAndGame(int gameId, int userId);
+
+    void acquireAchievement(int userId, int achieveId) throws CustomException;
 }

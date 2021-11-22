@@ -129,4 +129,18 @@ public class GameServiceImpl implements GameService {
     public int totalGameTime(int userId) {
         return userGameMapper.getTotalGameDuration(userId);
     }
+
+    @Override
+    public List<GameAchievementAcquirement> achievementOfUserAndGame(int gameId, int userId) {
+        return userGameMapper.achievementOfUserAndGame(gameId, userId);
+    }
+
+    @Override
+    public void acquireAchievement(int userId, int achieveId) throws CustomException {
+        if (userGameMapper.hasAchievement(userId, achieveId)) {
+            throw CustomException.defined(CustomException.Define.ACQUIRED_ACHIEVEMENT);
+        }
+        Date now = new Date(new java.util.Date().getTime());
+        userGameMapper.acquireAchievement(userId, achieveId, now);
+    }
 }

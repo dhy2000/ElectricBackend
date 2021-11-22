@@ -104,7 +104,7 @@ public class GameController {
         return StatusMessage.successfulStatus();
     }
 
-    @ApiOperation("获取游戏登录状态, true 为在线, false 为离线")
+    @ApiOperation("查询游戏登录状态, true 为在线, false 为离线")
     @GetMapping("status")
     public boolean gameStatus(
             @ApiParam("用户编号") @RequestParam("user") int userId,
@@ -112,7 +112,7 @@ public class GameController {
         return gameService.isGameOnline(userId, gameId);
     }
 
-    @ApiOperation("获取玩游戏的记录")
+    @ApiOperation("查询玩游戏的记录")
     @GetMapping("playRecord")
     public List<GamePlayRecord> playRecord(
             @ApiParam("用户编号") @RequestParam("user") int userId,
@@ -120,10 +120,30 @@ public class GameController {
         return gameService.recordOnGame(userId, gameId);
     }
 
-    @ApiOperation("获取用户玩游戏的总时长")
+    @ApiOperation("查询用户玩游戏的总时长")
     @GetMapping("totalPlayTime")
     public int totalPlayTime(
             @ApiParam("用户编号") @RequestParam("user") int userId) {
         return gameService.totalGameTime(userId);
+    }
+
+    @ApiOperation("查询某用户已经获得的某游戏的所有成就")
+    @GetMapping("acquirement")
+    public Collection<GameAchievementAcquirement> acquirement(
+            @ApiParam("用户 ID") @RequestParam("user") int userId,
+            @ApiParam("游戏编号") @RequestParam("game") int gameId) {
+        return gameService.achievementOfUserAndGame(gameId, userId);
+    }
+
+    @ApiOperation("获得游戏成就")
+    @PostMapping("acquireAchievement")
+    @AuthRequired
+    public StatusMessage acquireAchievement(
+            @RequestHeader("Token") String token,
+            @RequestBody AcquireAchieveRequest request) throws CustomException {
+        int userId = TokenUtil.verifyTokenAndGetUserId(token);
+        int achieveId = request.getAchievementId();
+        gameService.acquireAchievement(userId, achieveId);
+        return StatusMessage.successfulStatus();
     }
 }
