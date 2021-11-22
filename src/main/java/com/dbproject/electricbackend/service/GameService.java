@@ -1,13 +1,11 @@
 package com.dbproject.electricbackend.service;
 
 import com.dbproject.electricbackend.exception.CustomException;
-import com.dbproject.electricbackend.schema.GameAchievement;
-import com.dbproject.electricbackend.schema.GameInfo;
-import com.dbproject.electricbackend.schema.GameInfoAdd;
-import com.dbproject.electricbackend.schema.GameSummary;
+import com.dbproject.electricbackend.schema.*;
 
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.List;
 
 public interface GameService {
 
@@ -26,4 +24,12 @@ public interface GameService {
     void payOrder(int orderId) throws CustomException;
 
     void addGame(GameInfoAdd game) throws SQLException, ClassNotFoundException;
+
+    void changeGameOnline(int userId, int gameId, boolean direction) throws CustomException; // false: login, true: logout
+
+    boolean isGameOnline(int userId, int gameId);
+
+    List<GamePlayRecord> recordOnGame(int userId, int gameId);
+
+    int totalGameTime(int userId);
 }

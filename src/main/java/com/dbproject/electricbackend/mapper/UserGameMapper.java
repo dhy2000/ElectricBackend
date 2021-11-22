@@ -2,6 +2,7 @@ package com.dbproject.electricbackend.mapper;
 
 import com.dbproject.electricbackend.schema.GameAchievement;
 import com.dbproject.electricbackend.schema.GameOfUser;
+import com.dbproject.electricbackend.schema.GamePlayRecord;
 import com.dbproject.electricbackend.schema.PurchaseGameOrder;
 import org.apache.ibatis.annotations.*;
 
@@ -78,4 +79,26 @@ public interface UserGameMapper {
 
     @Select("SELECT EXISTS(SELECT * FROM `order` WHERE id=#{order_id} AND buyer_id=#{buyer_id})")
     boolean hasOrderWithBuyer(@Param("order_id") int orderId, @Param("buyer_id") int buyerId);
+
+    @Insert("INSERT INTO play_record (user_id, game_id, start_time, end_time) VALUES (#{user_id}, #{game_id}, #{start_time}, null)")
+    void loginGame(@Param("user_id") int userId, @Param("game_id") int gameId, @Param("start_time") Date startTime);
+
+    @Update("UPDATE play_record SET end_time=#{end_time} WHERE user_id = #{user_id} AND game_id = #{game_id} AND end_time IS NULL")
+    void logoutGame(@Param("user_id") int userId, @Param("game_id") int gameId, @Param("end_time") Date endTime);
+
+    @Select("SELECT EXISTS(SELECT * FROM play_record WHERE user_id = #{user_id} AND game_id = #{game_id} AND end_time IS NULL)")
+    boolean isGameOnline(@Param("user_id") int userId, @Param("game_id") int gameId);
+
+    @Select("SELECT game_id, game.name game_name, start_time, end_time, (UNIX_TIMESTAMP(end_time) - UNIX_TIMESTAMP(start_time)) duration FROM play_record INNER JOIN game ON play_record.game_id = game.id WHERE user_id = #{user_id} AND game_id = #{game_id}")
+    @Results({
+            @Result(property = "gameId", column = "game_id"),
+            @Result(property = "gameName", column = "game_name"),
+            @Result(property = "startTime", column = "start_time"),
+            @Result(property = "endTime", column = "end_time"),
+            @Result(property = "duration", column = "duration")
+    })
+    List<GamePlayRecord> getPlayRecordsOnGame(@Param("user_id") int userId, @Param("game_id") int gameId);
+
+    @Select("SELECT COALESCE(SUM(UNIX_TIMESTAMP(end_time) - UNIX_TIMESTAMP(start_time)), 0) FROM play_record WHERE user_id = #{user_id}")
+    int getTotalGameDuration(@Param("user_id") int userId);
 }

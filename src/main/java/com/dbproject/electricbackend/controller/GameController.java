@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.List;
 
 @Api(tags = "游戏")
 @RequestMapping("/game")
@@ -86,4 +87,43 @@ public class GameController {
         return StatusMessage.successfulStatus();
     }
 
+    @ApiOperation("上线或下线某个游戏")
+    @PostMapping("play")
+    @AuthRequired
+    public StatusMessage playGame(
+            @RequestHeader("Token") String token,
+            @RequestBody GameBehavior behavior) throws CustomException {
+        int userId = TokenUtil.verifyTokenAndGetUserId(token);
+        if (userId != behavior.getUserId()) {
+            throw CustomException.defined(CustomException.Define.INVALID_SESSION);
+        }
+        if (behavior.getType() != 1 && behavior.getType() != 0) {
+            throw CustomException.defined(CustomException.Define.ILLEGAL_BEHAVIOR);
+        }
+        gameService.changeGameOnline(behavior.getUserId(), behavior.getGameId(), behavior.getType() != 0);
+        return StatusMessage.successfulStatus();
+    }
+
+    @ApiOperation("获取游戏登录状态, true 为在线, false 为离线")
+    @GetMapping("status")
+    public boolean gameStatus(
+            @ApiParam("用户编号") @RequestParam("user") int userId,
+            @ApiParam("游戏编号") @RequestParam("game") int gameId) {
+        return gameService.isGameOnline(userId, gameId);
+    }
+
+    @ApiOperation("获取玩游戏的记录")
+    @GetMapping("playRecord")
+    public List<GamePlayRecord> playRecord(
+            @ApiParam("用户编号") @RequestParam("user") int userId,
+            @ApiParam("游戏编号") @RequestParam("game") int gameId) {
+        return gameService.recordOnGame(userId, gameId);
+    }
+
+    @ApiOperation("获取用户玩游戏的总时长")
+    @GetMapping("totalPlayTime")
+    public int totalPlayTime(
+            @ApiParam("用户编号") @RequestParam("user") int userId) {
+        return gameService.totalGameTime(userId);
+    }
 }

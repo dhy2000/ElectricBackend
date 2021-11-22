@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -92,5 +93,40 @@ public class GameServiceImpl implements GameService {
     @Override
     public void addGame(GameInfoAdd game) throws SQLException, ClassNotFoundException {
         gameMapper.addGame(game);
+    }
+
+    @Override
+    public void changeGameOnline(int userId, int gameId, boolean direction) throws CustomException {
+        // false: online, true: offline
+        if (direction) {
+            if (isGameOnline(userId, gameId)) {
+                Date now = new Date(new java.util.Date().getTime());
+                userGameMapper.logoutGame(userId, gameId, now);
+            } else {
+                throw CustomException.defined(CustomException.Define.ALREADY_OFFLINE);
+            }
+        } else {
+            if (!isGameOnline(userId, gameId)) {
+                Date now = new Date(new java.util.Date().getTime());
+                userGameMapper.loginGame(userId, gameId, now);
+            } else {
+                throw CustomException.defined(CustomException.Define.ALREADY_ONLINE);
+            }
+        }
+    }
+
+    @Override
+    public boolean isGameOnline(int userId, int gameId) {
+        return userGameMapper.isGameOnline(userId, gameId);
+    }
+
+    @Override
+    public List<GamePlayRecord> recordOnGame(int userId, int gameId) {
+        return userGameMapper.getPlayRecordsOnGame(userId, gameId);
+    }
+
+    @Override
+    public int totalGameTime(int userId) {
+        return userGameMapper.getTotalGameDuration(userId);
     }
 }

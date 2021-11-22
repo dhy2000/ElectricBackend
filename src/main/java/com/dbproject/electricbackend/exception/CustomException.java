@@ -42,6 +42,10 @@ public class CustomException extends Exception {
         ILLEGAL_RECHARGE_AMOUNT(1103, "充值金额非法"),
         INVALID_ORDER(1104, "无效的订单号"),
 
+        ALREADY_ONLINE(1111, "玩家已经在线，无法上线"),
+        ALREADY_OFFLINE(1112, "玩家已经下线，无法上线"),
+        ILLEGAL_BEHAVIOR(1113, "不合法的行为"),
+
         FILE_CREATE_ERROR(2101, "无法创建文件"),
         FILE_ALREADY_EXIST(2102, "同名文件已存在"),
         FILE_NOT_EXIST(2103, "文件不存在"),
