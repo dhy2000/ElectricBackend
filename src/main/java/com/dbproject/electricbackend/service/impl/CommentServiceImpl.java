@@ -7,7 +7,7 @@ import com.dbproject.electricbackend.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Service
@@ -21,7 +21,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public void createComment(int userId, CommentCreate create) {
-        Date now = new Date(new java.util.Date().getTime());
+        Timestamp now = new Timestamp(new java.util.Date().getTime());
         commentMapper.createComment(create.getGameId(), userId, create.getTitle(), create.getContent(), now, create.getReply());
     }
 

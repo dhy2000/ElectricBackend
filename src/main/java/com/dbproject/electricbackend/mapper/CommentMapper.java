@@ -3,7 +3,7 @@ package com.dbproject.electricbackend.mapper;
 import com.dbproject.electricbackend.schema.Comment;
 import org.apache.ibatis.annotations.*;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Mapper
@@ -14,7 +14,7 @@ public interface CommentMapper {
             @Param("author_id") int authorId,
             @Param("title") String title,
             @Param("content") String content,
-            @Param("time") Date time,
+            @Param("time") Timestamp time,
             @Param("reply") Integer reply);
 
     @Update("UPDATE comment SET visible = FALSE WHERE id = #{comment_id} AND author_id = #{author_id}")

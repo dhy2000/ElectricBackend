@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 @Data
 @ApiModel("某个用户的一条玩某游戏的记录")
@@ -22,11 +22,11 @@ public class GamePlayRecord {
 
     @Getter
     @ApiModelProperty("上线时间")
-    private final Date startTime;
+    private final Timestamp startTime;
 
     @Getter
     @ApiModelProperty("下线时间")
-    private final Date endTime;
+    private final Timestamp endTime;
 
     @Getter
     @ApiModelProperty("单次游戏时长(秒)")

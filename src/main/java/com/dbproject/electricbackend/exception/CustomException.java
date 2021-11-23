@@ -50,6 +50,8 @@ public class CustomException extends Exception {
         ACQUIRED_ACHIEVEMENT(1116, "成就已获得，不可重复获得"),
         ALREADY_HAS_TAG(1117, "标签已存在"),
         NOT_HAS_TAG(1118, "标签不存在"),
+        MOD_ALREADY_SUBSCRIBE(1119, "扩展包已订阅，不可重复订阅"),
+        MOD_NOT_SUBSCRIBE(1120, "扩展包未订阅"),
 
         FILE_CREATE_ERROR(2101, "无法创建文件"),
         FILE_ALREADY_EXIST(2102, "同名文件已存在"),
