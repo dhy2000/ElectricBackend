@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NonNull;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 @Data
 @ApiModel("评论")
@@ -18,7 +18,6 @@ public class Comment {
     private int id;
 
     @Getter
-    @NonNull
     @ApiModelProperty("发布者ID")
     private int authorId;
 
@@ -40,7 +39,7 @@ public class Comment {
     @Getter
     @NonNull
     @ApiModelProperty("发布时间")
-    private Timestamp createTime;
+    private Date createTime;
 
     @Getter
     @ApiModelProperty("回复指代的评论编号, 可以为 null，null 表示该帖是新帖")

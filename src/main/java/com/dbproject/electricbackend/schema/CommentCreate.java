@@ -20,7 +20,6 @@ public class CommentCreate {
     private String content;
 
     @Getter
-    @NonNull
     @ApiModelProperty("所属游戏ID")
     private int gameId;
 

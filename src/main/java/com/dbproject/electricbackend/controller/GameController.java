@@ -50,7 +50,11 @@ public class GameController {
 
     @ApiOperation("添加游戏")
     @PostMapping("addGame")
-    public StatusMessage addGame(@RequestBody GameInfoAdd game) throws SQLException, ClassNotFoundException {
+    @AuthRequired
+    public StatusMessage addGame(
+            @RequestHeader("Token") String token,
+            @RequestBody GameInfoAdd game) throws SQLException, ClassNotFoundException, CustomException {
+        TokenUtil.verifyTokenAndGetUserId(token);
         gameService.addGame(game);
         return StatusMessage.successfulStatus();
     }
@@ -144,6 +148,17 @@ public class GameController {
         int userId = TokenUtil.verifyTokenAndGetUserId(token);
         int achieveId = request.getAchievementId();
         gameService.acquireAchievement(userId, achieveId);
+        return StatusMessage.successfulStatus();
+    }
+
+    @ApiOperation("创建游戏成就")
+    @PostMapping("createAchievement")
+    @AuthRequired
+    public StatusMessage createAchievement(
+            @RequestHeader("Token") String token,
+            @RequestBody AchievementCreate create) throws CustomException {
+        TokenUtil.verifyTokenAndGetUserId(token);
+        gameService.createAchievement(create.getGameId(), create.getName(), create.getDescribe());
         return StatusMessage.successfulStatus();
     }
 }

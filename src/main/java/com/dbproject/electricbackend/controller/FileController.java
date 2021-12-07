@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-@Api(tags = "文件上传下载")
+@Api(tags = "文件相关")
 @RequestMapping("/file")
 @Log4j2
 @RestController
@@ -38,8 +38,8 @@ public class FileController {
         this.fileService = fileService;
     }
 
-    @ApiOperation("上传文件(单个或多个均可), 请求体格式采用 multipart/form-data, KEY 名称为 \"file\"")
-    @PostMapping(value = "upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    // @ApiOperation("上传文件(单个或多个均可), 请求体格式采用 multipart/form-data, KEY 名称为 \"file\"")
+    // @PostMapping(value = "upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public List<FileUploadResponse> upload(@RequestParam("file") MultipartFile[] files) {
         List<FileUploadResponse> responses = new LinkedList<>();
         for (MultipartFile file : files) {

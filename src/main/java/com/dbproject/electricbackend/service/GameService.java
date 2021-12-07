@@ -36,4 +36,6 @@ public interface GameService {
     List<GameAchievementAcquirement> achievementOfUserAndGame(int gameId, int userId);
 
     void acquireAchievement(int userId, int achieveId) throws CustomException;
+
+    void createAchievement(int gameId, String name, String description);
 }

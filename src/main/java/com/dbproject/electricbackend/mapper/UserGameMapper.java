@@ -107,4 +107,7 @@ public interface UserGameMapper {
 
     @Select("SELECT COALESCE(SUM(UNIX_TIMESTAMP(end_time) - UNIX_TIMESTAMP(start_time)), 0) FROM play_record WHERE user_id = #{user_id}")
     int getTotalGameDuration(@Param("user_id") int userId);
+
+    @Insert("INSERT INTO achievement (game_id, name, `describe`) VALUES (#{game_id}, #{name}, #{describe})")
+    void createAchievement(@Param("game_id") int gameId, @Param("name") String name, @Param("describe") String describe);
 }

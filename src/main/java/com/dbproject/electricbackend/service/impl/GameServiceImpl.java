@@ -143,4 +143,9 @@ public class GameServiceImpl implements GameService {
         Date now = new Date(new java.util.Date().getTime());
         userGameMapper.acquireAchievement(userId, achieveId, now);
     }
+
+    @Override
+    public void createAchievement(int gameId, String name, String description) {
+        userGameMapper.createAchievement(gameId, name, description);
+    }
 }

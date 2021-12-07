@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NonNull;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 @Data
 @ApiModel("游戏扩展包(MOD)")
@@ -28,7 +28,6 @@ public class GameMod {
     private final String describe;
 
     @Getter
-    @NonNull
     @ApiModelProperty("扩展包作者ID")
     private final int authorId;
 
@@ -40,12 +39,12 @@ public class GameMod {
     @Getter
     @NonNull
     @ApiModelProperty("创建时间")
-    private final Timestamp createTime;
+    private final Date createTime;
 
     @Getter
     @NonNull
     @ApiModelProperty("最近更新时间")
-    private final Timestamp updateTime;
+    private final Date updateTime;
 
     @Getter
     @ApiModelProperty("所属游戏ID")
