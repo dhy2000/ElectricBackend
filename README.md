@@ -27,7 +27,6 @@ mvn compile && mvn package # 使用 maven 编译并打包为 jar
 
 ## 使用说明
 
-- 在线(部署)地址及端口： `http://49.235.193.150:8112` （开发者本人持有的个人云服务器）
 - 本地运行的默认端口为 `8000` （端口配置位于 `src/main/resources/application.yml` 中）
 
 本工程已经集成了 Swagger 工具用来自动生成在线的 API 文档。在线 API 文档的相对地址：`/swagger-ui/index.html` （完整地址示例：`http://localhost:8000/swagger-ui/index.html`）

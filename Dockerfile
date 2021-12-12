@@ -16,10 +16,10 @@ COPY . .
 RUN mvn compile && mvn package && cd target && rm -r `ls | grep -v ".jar$"` && cd .. && cp target/*.jar ./SpringApplication.jar
 
 # Write start script
-RUN echo "java -jar SpringApplication.jar --spring.datasource.username=\$DB_USER --spring.datasource.password=\$DB_PASSWORD" >> start.sh
+RUN echo "java -jar SpringApplication.jar --spring.datasource.url=\$DB_ADDRESS_URL --spring.datasource.username=\$DB_USER --spring.datasource.password=\$DB_PASSWORD" >> serve.sh
 
 # Open port
 EXPOSE 8000
 
 # Set Entrypoint
-ENTRYPOINT ["/bin/bash", "./start.sh"]
+ENTRYPOINT ["/bin/bash", "./serve.sh"]
