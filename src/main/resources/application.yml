@@ -2,7 +2,7 @@ server:
   port: 8000
 spring:
   datasource:
-    url: # runtime argument
+    url: jdbc:mysql://127.0.0.1:3306/db_course_2021?useUnicode=true&characterEncoding=utf8
     username: # runtime argument
     password: # runtime argument
     driver-class-name: com.mysql.cj.jdbc.Driver
